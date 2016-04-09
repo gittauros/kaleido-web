@@ -219,10 +219,10 @@
     <#list listBOs as bo>
         <div style="display: inline-block; height: 450px; width: 300px; margin: 5px; border: solid 1px bisque;">
             <div style="display: block; width: 100%; height: 300px; margin-top: 5px;">
-                <img style="max-width: 100%; max-height: 100%; margin: auto;" src="${(bo.coverImg)!}"/>
+                <img style="max-width: 100%; max-height: 100%; margin: auto;" src="${contextPath}${(bo.coverImg)!}"/>
             </div>
             <div style="display: block; width: 100%; text-align: center; margin-top:5px;">
-                <img style="display: block; margin: 0 auto;" src="${(bo.tagImg)!}"/>
+                <img style="display: block; margin: 0 auto;" src="${contextPath}${(bo.tagImg)!}"/>
                 <span style="display: block; margin-top: 5px;" class="bz_title" title="${(bo.title)!}">${(bo.title)!}</span>
             </div>
             <div style="width: 100%; margin-top: 5px;">

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
@@ -29,7 +28,7 @@ public class ExHentaiController extends BaseController {
 	@RequestMapping("list")
 	public String exhentaiList(Model model) throws UnsupportedEncodingException {
 		String search = request.getParameter("search");
-		String apply = request.getParameter( "f_apply");
+		String apply = request.getParameter("f_apply");
 		int page = RequestUtils.getInt(request, "page");
 		int fDoujinshi = RequestUtils.getBooleanInt(request, "fdoujinshi");
 		int fManga = RequestUtils.getBooleanInt(request, "fmanga");
@@ -68,7 +67,7 @@ public class ExHentaiController extends BaseController {
 		paramBean.setfAsianporn(fAsianporn);
 		paramBean.setfMisc(fMisc);
 
-		Map<String, Object> pageResult = exHentaiService.searchListPage(request.getContextPath(), paramBean);
+		Map<String, Object> pageResult = exHentaiService.searchListPage(paramBean);
 
 		for (Map.Entry<String, Object> entry : pageResult.entrySet()) {
 			model.addAttribute(entry.getKey(), entry.getValue());
