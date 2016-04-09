@@ -5,13 +5,15 @@
     <title>Kaleido - Home</title>
 </head>
 <body>
-    ${message}
-<br>
-    ${message_cn}
-<p>
-    ${request}
+<div>
+${message}
     <br>
+${message_cn}
+    <p>
+    ${request}
+        <br>
     ${response}
-</p>
+    </p>
+</div>
 </body>
 </html>

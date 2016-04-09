@@ -99,10 +99,12 @@
                     <select name="apply" id="f_apply">
                         <option value="Apply+Filter"
                                 <#if apply==null || apply == "Apply+Filter">selected="selected"</#if>
-                        >Apply+Filter</option>
+                        >Apply+Filter
+                        </option>
                         <option value="Search"
                                 <#if apply == "Search">selected="selected"</#if>
-                        >Search</option>
+                        >Search
+                        </option>
                     </select>
                 </td>
             </tr>
@@ -223,7 +225,8 @@
             </div>
             <div style="display: block; width: 100%; text-align: center; margin-top:5px;">
                 <img style="display: block; margin: 0 auto;" src="${contextPath}${(bo.tagImg)!}"/>
-                <span style="display: block; margin-top: 5px;" class="bz_title" title="${(bo.title)!}">${(bo.title)!}</span>
+                <span style="display: block; margin-top: 5px;" class="bz_title"
+                      title="${(bo.title)!}">${(bo.title)!}</span>
             </div>
             <div style="width: 100%; margin-top: 5px;">
                 <a href="${(bo.bzUrl)!}" target="_blank" style="display: block;">
@@ -245,8 +248,8 @@
 </body>
 <script>
     var cks = jQuery(".advck");
-    for (var i = 0;i < cks.length;i ++) {
-        cks[i].addEventListener("click", function(e){
+    for (var i = 0; i < cks.length; i++) {
+        cks[i].addEventListener("click", function (e) {
             e.stopPropagation();
         }, false);
     }

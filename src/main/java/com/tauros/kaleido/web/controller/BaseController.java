@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class BaseController {
 
-	protected HttpServletRequest request;
+	protected HttpServletRequest  request;
 	protected HttpServletResponse response;
 
 	public void setRequest(HttpServletRequest request) {
