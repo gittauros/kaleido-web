@@ -2,6 +2,7 @@ package com.tauros.kaleido.web.controller.exhentai;
 
 import com.tauros.kaleido.core.model.formbean.ExHentaiListParamBean;
 import com.tauros.kaleido.core.service.ExHentaiService;
+import com.tauros.kaleido.core.util.ConsoleLog;
 import com.tauros.kaleido.web.controller.BaseController;
 import com.tauros.kaleido.web.util.RequestUtils;
 import org.springframework.stereotype.Controller;
@@ -110,6 +111,7 @@ public class ExHentaiController extends BaseController {
 				saveBasePath = saveBasePath + "/";
 			}
 		}
+		ConsoleLog.e("请求下载");
 		String msg = exHentaiService.download(saveBasePath, url, sleep, origin);
 
 		return msg;
