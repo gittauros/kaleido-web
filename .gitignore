@@ -1,0 +1,10 @@
+#filter project file
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.iml
+target/
+.idea/

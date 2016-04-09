@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+       default-autowire="byName">
+
+    <!--静态资源映射-->
+    <mvc:resources mapping="/img/**" location="/static_resources/img/"/>
+    <mvc:resources mapping="/css/**" location="/static_resources/css/"/>
+    <mvc:resources mapping="/js/**" location="/static_resources/js/"/>
+    <mvc:resources mapping="/plugins/**" location="/plugins/"/>
+    <mvc:annotation-driven/>
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.tauros.kaleido.web.controller"/>
+
+    <!--freemarker-->
+    <bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html; charset=UTF-8"/>
+    </bean>
+
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/templates/" />
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="number_format">#</prop>
+                <prop key="template_update_delay">0</prop>
+                <prop key="classic_compatible">true</prop>
+                <prop key="auto_import">/macro/macros.ftl as spring</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--velocity-->
+    <!--<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">-->
+        <!--<property name="suffix" value=".vm" />-->
+        <!--<property name="contentType" value="text/html;charset=UTF-8" />-->
+    <!--</bean>-->
+
+    <!--<bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">-->
+        <!--<property name="resourceLoaderPath">-->
+            <!--<value>/WEB-INF/templates/</value>-->
+        <!--</property>-->
+        <!--<property name="velocityProperties">-->
+            <!--<props>-->
+                <!--<prop key="input.encoding">UTF-8</prop>-->
+                <!--<prop key="output.encoding">UTF-8</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--import start-->
+    <import resource="classpath*:kaleido-core-beans.xml"/>
+    <!--拦截器声明 *拦截器必须与applicationContext一起被引入*-->
+    <import resource="kaleido-interceptors.xml"/>
+    <!--import end-->
+</beans>
