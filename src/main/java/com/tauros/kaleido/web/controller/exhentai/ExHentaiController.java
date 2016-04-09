@@ -68,7 +68,7 @@ public class ExHentaiController extends BaseController {
 		paramBean.setfAsianporn(fAsianporn);
 		paramBean.setfMisc(fMisc);
 
-		Map<String, Object> pageResult = exHentaiService.searchListPage(paramBean);
+		Map<String, Object> pageResult = exHentaiService.searchListPage(request.getContextPath(), paramBean);
 
 		for (Map.Entry<String, Object> entry : pageResult.entrySet()) {
 			model.addAttribute(entry.getKey(), entry.getValue());
