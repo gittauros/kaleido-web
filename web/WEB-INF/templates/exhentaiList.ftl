@@ -191,7 +191,8 @@
                 </tr>
                 <tr>
                     <td>
-                        保存路径:<input id="path" type="text" value="D:/F/myBez/"/>
+                        保存路径:<input id="path" type="text" value="${savePath!}" onchange="modify_save_path()"
+                                    onkeydown="modify_save_path()"/>
                     </td>
                 </tr>
                 <tr>
@@ -405,6 +406,24 @@
         } else {
             jQuery("#advance_table").hide();
         }
+    }
+
+    function modify_save_path() {
+        var path = jQuery("#path").val();
+        jQuery.ajax({
+            url: "${contextPath}/exhentai/modifySavePath",
+            async: true,
+            data: {
+                savePath: path
+            },
+            type: "GET",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        })
     }
 </script>
 </html>

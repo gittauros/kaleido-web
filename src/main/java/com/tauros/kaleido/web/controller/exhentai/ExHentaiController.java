@@ -3,6 +3,7 @@ package com.tauros.kaleido.web.controller.exhentai;
 import com.tauros.kaleido.core.model.formbean.ExHentaiListParamBean;
 import com.tauros.kaleido.core.service.ExHentaiService;
 import com.tauros.kaleido.core.util.ConsoleLog;
+import com.tauros.kaleido.core.util.SystemUtils;
 import com.tauros.kaleido.web.controller.BaseController;
 import com.tauros.kaleido.web.util.RequestUtils;
 import org.springframework.stereotype.Controller;
@@ -88,6 +89,7 @@ public class ExHentaiController extends BaseController {
 		model.addAttribute("fasianporn", fAsianporn == 1);
 		model.addAttribute("fmisc", fMisc == 1);
 		model.addAttribute("page", page);
+		model.addAttribute("savePath", SystemUtils.getSavePath());
 		return "exhentaiList";
 	}
 
@@ -115,5 +117,12 @@ public class ExHentaiController extends BaseController {
 		String msg = exHentaiService.download(saveBasePath, url, sleep, origin);
 
 		return msg;
+	}
+
+	@RequestMapping("modifySavePath")
+	@ResponseBody
+	public String modifySavePath(String savePath) {
+		boolean result = SystemUtils.setSavePath(savePath);
+		return result ? "success" : "failed";
 	}
 }
