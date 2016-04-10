@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class ExHentaiController extends BaseController {
 	private ExHentaiService exHentaiService;
 
 	@RequestMapping("list")
-	public String exhentaiList(Model model) throws UnsupportedEncodingException {
+	public String exhentaiList(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
 		String search = request.getParameter("search");
 		String apply = request.getParameter("f_apply");
 		int page = RequestUtils.getInt(request, "page");
@@ -92,7 +93,7 @@ public class ExHentaiController extends BaseController {
 
 	@RequestMapping("download")
 	@ResponseBody
-	public String download() {
+	public String download(HttpServletRequest request) {
 		String url = request.getParameter("url");
 		String saveBasePath = request.getParameter("path");
 		long sleep = RequestUtils.getLong(request, "sleep");

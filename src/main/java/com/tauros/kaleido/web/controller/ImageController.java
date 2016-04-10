@@ -31,7 +31,7 @@ public class ImageController extends BaseController {
 			OutputStream outputStream = response.getOutputStream();
 			outputStream.write(imageData);
 			outputStream.flush();
-			outputStream.close();
+//			outputStream.close();
 		} catch (IOException ioe) {
 			ConsoleLog.e("访问图片异常 imageUrl=" + imageUrl, ioe);
 		}
