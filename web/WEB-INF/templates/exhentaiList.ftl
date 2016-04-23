@@ -255,7 +255,7 @@
             page = parseInt("${(maxPage)!}");
         }
         jQuery(obj).val(page);
-        console.log(jQuery(obj).val());
+//        console.log(jQuery(obj).val());
     }
 
     function advtdclick(obj) {
@@ -348,7 +348,6 @@
                 function (data, status) {
 //                    alert(data);
                     console.log(data);
-                    flag = true;
                 });
     }
 
@@ -367,7 +366,6 @@
                 function (data, status) {
 //                    alert(data);
                     console.log(data);
-                    flag = true;
                 });
     };
 

@@ -5,7 +5,7 @@ import com.tauros.kaleido.core.model.bean.ExHentaiListParamBean;
 import com.tauros.kaleido.core.model.bo.ExHentaiGalleryBO;
 import com.tauros.kaleido.core.model.bo.ExHentaiListBO;
 import com.tauros.kaleido.core.service.ExHentaiService;
-import com.tauros.kaleido.core.util.Log;
+import com.tauros.kaleido.core.util.ConsoleLog;
 import com.tauros.kaleido.core.util.SystemUtils;
 import com.tauros.kaleido.web.controller.BaseController;
 import com.tauros.kaleido.web.util.ExHentaiUrlConverter;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -117,8 +118,15 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 			model.addAttribute(entry.getKey(), entry.getValue());
 		}
 
+		try {
+			String encodeOriUrl = URLEncoder.encode(oriUrl, "UTF-8");
+			model.addAttribute("encodeOriUrl", encodeOriUrl);
+		} catch (IOException ioe) {
+
+		}
 		model.addAttribute("large", large);
 		model.addAttribute("page", page);
+		model.addAttribute("savePath", SystemUtils.getSavePath());
 		return "exhentaiGallery";
 	}
 
@@ -147,7 +155,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 				saveBasePath = saveBasePath + "/";
 			}
 		}
-		Log.e("请求下载");
+		ConsoleLog.e("请求下载");
 		String msg = exHentaiService.download(saveBasePath, url, sleep, origin);
 
 		return msg;
