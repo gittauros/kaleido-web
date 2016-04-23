@@ -13,7 +13,7 @@
 <body style="margin: 0; padding: 0 0;">
 <div style="width: 100%; height: auto; position: fixed; background-color: white; z-index: 99;">
     <div style="float: left; display: inline; width: 100%; padding: 8px; border-bottom: solid 1px black;">
-        <div style="margin: 0 auto 0 auto; width: 300px;">
+        <div style="margin: 0 auto 0 auto; width: 350px;">
             <a style="margin-right: 10px;" href="${contextPath}${(photoBO.firstPageUrl)!}">首页</a>
             <a style="margin-right: 10px;" href="${contextPath}${(photoBO.prevPageUrl)!}">上一页</a>
         ${(photoBO.curPage)!}
