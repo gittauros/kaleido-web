@@ -124,6 +124,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		} catch (IOException ioe) {
 
 		}
+		model.addAttribute("oriUrl", oriUrl);
 		model.addAttribute("large", large);
 		model.addAttribute("page", page);
 		model.addAttribute("savePath", SystemUtils.getSavePath());

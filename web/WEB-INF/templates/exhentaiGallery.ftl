@@ -13,7 +13,7 @@
 <body style="margin: 0; padding: 0 0;">
 <div style="width: 100%; height: auto; position: fixed; background-color: white; z-index: 99;">
     <div style="float: left; display: inline; width: 100%; padding: 8px; border-bottom: solid 1px black;">
-        <div style="margin: 0 auto 0 auto; width: 400px;">
+        <div style="margin: 0 auto 0 auto; width: 630px;">
         <#if page != 1 ><a style="margin-right: 10px;" href="javascript:page_change(1);">首页</a></#if>
         <#if page gt 1 ><a style="margin-right: 10px;" href="javascript:page_change(${page - 1});">上一页</a></#if>
             <input style="width: 50px; height: 30px; font-size: 15px; text-align: center;" type="number"
@@ -23,6 +23,12 @@
         <#if page != maxPage><a style="margin-left: 10px;" href="javascript:page_change(${maxPage});">末页</a></#if>
         <#--<input style="width: 300px; height: 30px; font-size: 14px; margin-left: 15px;" type="button" value="确定"-->
         <#--onclick="ex_search()"/>-->
+            <div style="display: inline-block; margin: auto 0 auto 10px; width: 230px; height: 30px;">
+                <input style="display: inline-block;width: 100px; height: 100%;" type="button" value="原图下载"
+                       onclick="download(true)"/>
+                <input style="display: inline-block;width: 100px; height: 100%; margin-left: 20px;" type="button" value="普通下载"
+                       onclick="download(false)"/>
+            </div>
         </div>
     </div>
     <div style="float: right; position: absolute; right: 0px; padding: 8px 8px 0 0; width: 500px;">
@@ -118,7 +124,7 @@
 
     function download(origin) {
         var params = {
-            url: "${(encodeOriUrl)!}",
+            url: "${(oriUrl)!}",
             origin: origin
         };
         var settings = getSettings();
@@ -168,6 +174,24 @@
             jQuery("#settings_table").hide();
             jQuery("#toggle_settings").html("展开设置");
         }
+    }
+
+    function modify_save_path() {
+        var path = jQuery("#path").val();
+        jQuery.ajax({
+            url: "${contextPath}/exhentai/modifySavePath",
+            async: true,
+            data: {
+                savePath: path
+            },
+            type: "GET",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        })
     }
 
     function openUrl(url) {
