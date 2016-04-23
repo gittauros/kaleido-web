@@ -98,7 +98,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		model.addAttribute("fmisc", fMisc == 1);
 		model.addAttribute("page", page);
 		model.addAttribute("savePath", SystemUtils.getSavePath());
-		return "exhentaiList";
+		return "exhentai/exhentaiList";
 	}
 
 	@RequestMapping("gallery")
@@ -128,7 +128,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		model.addAttribute("large", large);
 		model.addAttribute("page", page);
 		model.addAttribute("savePath", SystemUtils.getSavePath());
-		return "exhentaiGallery";
+		return "exhentai/exhentaiGallery";
 	}
 
 	@RequestMapping("photo")
