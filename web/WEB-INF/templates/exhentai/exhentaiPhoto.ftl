@@ -23,7 +23,7 @@
         </div>
     </div>
 </div>
-<#-- 图片列表-->
+<#-- 图片-->
 <div style="width: 100%; height: auto; position: absolute;">
     <div style="width: 1400px; margin: 55px auto 20px auto; text-align: center;">
         <img src="${contextPath}${(photoBO.photoImg)!}"
