@@ -21,17 +21,23 @@
             / ${(maxPage)!}
         <#if page lt maxPage><a style="margin-left: 10px;" href="javascript:page_change(${page + 1});">下一页</a></#if>
         <#if page != maxPage><a style="margin-left: 10px;" href="javascript:page_change(${maxPage});">末页</a></#if>
-        <#--<input style="width: 300px; height: 30px; font-size: 14px; margin-left: 15px;" type="button" value="确定"-->
-        <#--onclick="ex_search()"/>-->
             <div style="display: inline-block; margin: auto 0 auto 10px; width: 230px; height: 30px;">
                 <input style="display: inline-block;width: 100px; height: 100%;" type="button" value="原图下载"
                        onclick="download(true)"/>
-                <input style="display: inline-block;width: 100px; height: 100%; margin-left: 20px;" type="button" value="普通下载"
+                <input style="display: inline-block;width: 100px; height: 100%; margin-left: 20px;" type="button"
+                       value="普通下载"
                        onclick="download(false)"/>
             </div>
         </div>
     </div>
     <div style="float: right; position: absolute; right: 0px; padding: 8px 8px 0 0; width: 500px;">
+        <a id="toggle_large" href="javascript:setLarge(!${large?string('true','false')})">
+        <#if large>
+            小图浏览
+        <#else>
+            大图浏览
+        </#if>
+        </a>
         <div style="float: right; text-align: right; margin-right: 10px;">
             <a id="toggle_settings" href="javascript:toggle_settings_table();"
                style="clear: both; width: 100%; text-align: right; margin-right: 10px;">展开设置</a>
@@ -70,15 +76,17 @@
 </div>
 <#-- 图片列表-->
 <div style="width: 100%; height: auto; position: absolute;">
-    <div style="width: 1400px; margin: 125px auto 0 auto; text-align: center;">
+    <div style="width: 1400px; margin: 55px auto 0 auto; text-align: center;">
     <#if galleryBOs??>
         <#list galleryBOs as bo>
             <#if large>
-                <div style="display: inline-block; height: 320px; width: 240px; margin: 5px; /*border: solid 1px bisque;*/">
+                <div onclick="openUrl('${(bo.photoUrl)!}')"
+                     style="cursor: pointer; display: inline-block; height: 320px; width: 240px; margin: 5px; /*border: solid 1px bisque;*/">
                     <img title="${(bo.title)!}" src="${contextPath}${(bo.largeImg)!}" style="border: solid 1px;"/>
                 </div>
-            <#else >
-                <div style="display: inline-block; height: 160px; width: 120px; margin: 5px; /*border: solid 1px bisque;*/">
+            <#else>
+                <div onclick="openUrl('${(bo.photoUrl)!}')"
+                     style="cursor: pointer; display: inline-block; height: 160px; width: 120px; margin: 5px; /*border: solid 1px bisque;*/">
                     <div style="border: solid 1px; margin:1px auto 0; width:100px; height:142px; background:transparent url(${contextPath}${(bo.smallImg)!}) ${(bo.smallImgXOffset)!}px ${(bo.smallImgYOffset)!}px no-repeat">
                         <img title="${(bo.title)!}" src="${contextPath}${(bo.smallImgPlaceHolder)!}"
                              style="width:100px; height:141px; margin:-1px 0 0 -1px"/>
@@ -91,6 +99,12 @@
 </div>
 </body>
 <script>
+    var large = ${large?string('true','false')};
+    function setLarge(isLarge) {
+        large = isLarge;
+        page_change(${(page)!});
+    }
+
     function pageValChange(obj) {
         var page = jQuery(obj).val();
         if (page <= 0) {
@@ -105,7 +119,7 @@
     function baseGalleryUrl() {
         return "${contextPath!}/exhentai/gallery?" +
                 "oriUrl=${(encodeOriUrl)!}" +
-                "&large=${(large)!}";
+                "&large=" + large;
     }
 
     function page_change(page) {
