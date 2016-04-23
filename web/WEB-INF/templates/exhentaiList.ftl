@@ -2,22 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>exhentai</title>
+    <title>exhentai - list</title>
     <script src="${(contextPath)!}/js/jquery.min.js"></script>
     <style>
         html, body, p {
             font-family: sans-serif;
         }
-
-        /*.bz_title {
-            display: block;
-            width:290px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow : hidden;
-            text-overflow: ellipsis;
-        }*/
 
         .bz_title {
             display: block;
@@ -217,11 +207,12 @@
         </div>
     </div>
 </div>
+<#-- 本子列表 -->
 <div style="position: absolute; margin-top: 125px; margin-left: 8px; text-align: center;">
 <#if listBOs??>
     <#list listBOs as bo>
         <div style="display: inline-block; height: 450px; width: 300px; margin: 5px; border: solid 1px bisque;">
-            <div style="display: block; width: 100%; height: 300px; margin-top: 5px;">
+            <div style="display: block; width: 100%; height: 300px; margin-top: 5px; cursor:pointer;" onclick="openUrl('${(bo.galleryUrl)!}')">
                 <img style="max-width: 100%; max-height: 100%; margin: auto;" src="${contextPath}${(bo.coverImg)!}"/>
             </div>
             <div style="display: block; width: 100%; text-align: center; margin-top:5px;">
@@ -424,6 +415,10 @@
                 console.log(data);
             }
         })
+    }
+
+    function openUrl(url) {
+        window.open("${contextPath}" + url);
     }
 </script>
 </html>

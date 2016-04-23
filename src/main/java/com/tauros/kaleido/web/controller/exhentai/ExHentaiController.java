@@ -1,10 +1,15 @@
 package com.tauros.kaleido.web.controller.exhentai;
 
+import com.tauros.kaleido.core.constant.ExHentaiConstant;
 import com.tauros.kaleido.core.model.bean.ExHentaiListParamBean;
+import com.tauros.kaleido.core.model.bo.ExHentaiGalleryBO;
+import com.tauros.kaleido.core.model.bo.ExHentaiListBO;
 import com.tauros.kaleido.core.service.ExHentaiService;
-import com.tauros.kaleido.core.util.ConsoleLog;
+import com.tauros.kaleido.core.util.Log;
 import com.tauros.kaleido.core.util.SystemUtils;
 import com.tauros.kaleido.web.controller.BaseController;
+import com.tauros.kaleido.web.util.ExHentaiUrlConverter;
+import com.tauros.kaleido.web.util.ImageUrlConverter;
 import com.tauros.kaleido.web.util.RequestUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +20,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,7 +28,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("exhentai")
-public class ExHentaiController extends BaseController {
+public class ExHentaiController extends BaseController implements ExHentaiConstant {
 
 	@Resource
 	private ExHentaiService exHentaiService;
@@ -70,11 +76,12 @@ public class ExHentaiController extends BaseController {
 		paramBean.setfMisc(fMisc);
 
 		Map<String, Object> pageResult = exHentaiService.searchListPage(paramBean);
+		//转换列表展示元素参数
+		convertListBO((List<ExHentaiListBO>) pageResult.get(LIST_BO_KEY));
 
 		for (Map.Entry<String, Object> entry : pageResult.entrySet()) {
 			model.addAttribute(entry.getKey(), entry.getValue());
 		}
-
 
 		model.addAttribute("search", search);
 		model.addAttribute("apply", apply);
@@ -91,6 +98,33 @@ public class ExHentaiController extends BaseController {
 		model.addAttribute("page", page);
 		model.addAttribute("savePath", SystemUtils.getSavePath());
 		return "exhentaiList";
+	}
+
+	@RequestMapping("gallery")
+	public String gallery(Model model, String oriUrl, Boolean large, Integer page) {
+		if (large == null) {
+			large = false;
+		}
+		if (page == null || page == 0) {
+			page = 1;
+		}
+
+		Map<String, Object> pageResult = exHentaiService.galleryPage(oriUrl, large, page);
+		//转换列表展示元素参数
+		convertGalleryBO((List<ExHentaiGalleryBO>) pageResult.get(GALLERY_BO_KEY));
+
+		for (Map.Entry<String, Object> entry : pageResult.entrySet()) {
+			model.addAttribute(entry.getKey(), entry.getValue());
+		}
+
+		model.addAttribute("large", large);
+		model.addAttribute("page", page);
+		return "exhentaiGallery";
+	}
+
+	@RequestMapping("photo")
+	public String photo(String oriUrl) {
+		return "";
 	}
 
 	@RequestMapping("download")
@@ -113,7 +147,7 @@ public class ExHentaiController extends BaseController {
 				saveBasePath = saveBasePath + "/";
 			}
 		}
-		ConsoleLog.e("请求下载");
+		Log.e("请求下载");
 		String msg = exHentaiService.download(saveBasePath, url, sleep, origin);
 
 		return msg;
@@ -124,5 +158,30 @@ public class ExHentaiController extends BaseController {
 	public String modifySavePath(String savePath) {
 		boolean result = SystemUtils.setSavePath(savePath);
 		return result ? "success" : "failed";
+	}
+
+	private static List<ExHentaiListBO> convertListBO(List<ExHentaiListBO> exHentaiListBOs) {
+		if (exHentaiListBOs == null) {
+			return null;
+		}
+		for (ExHentaiListBO exHentaiListBO : exHentaiListBOs) {
+			exHentaiListBO.setCoverImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiListBO.getCoverImg()));
+			exHentaiListBO.setTagImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiListBO.getTagImg()));
+			exHentaiListBO.setGalleryUrl(ExHentaiUrlConverter.convertExhentaiGalleryUrl(exHentaiListBO.getGalleryUrl()));
+		}
+		return exHentaiListBOs;
+	}
+
+	private static List<ExHentaiGalleryBO> convertGalleryBO(List<ExHentaiGalleryBO> exHentaiGalleryBOs) {
+		if (exHentaiGalleryBOs == null) {
+			return null;
+		}
+		for (ExHentaiGalleryBO exHentaiGalleryBO : exHentaiGalleryBOs) {
+			exHentaiGalleryBO.setLargeImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getLargeImg()));
+			exHentaiGalleryBO.setSmallImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getSmallImg()));
+			exHentaiGalleryBO.setSmallImgPlaceHolder(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getSmallImgPlaceHolder()));
+			exHentaiGalleryBO.setPhotoUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiGalleryBO.getPhotoUrl()));
+		}
+		return exHentaiGalleryBOs;
 	}
 }

@@ -1,7 +1,7 @@
 package com.tauros.kaleido.web.controller;
 
 import com.tauros.kaleido.core.service.ExHentaiService;
-import com.tauros.kaleido.core.util.ConsoleLog;
+import com.tauros.kaleido.core.util.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +33,7 @@ public class ImageController extends BaseController {
 			outputStream.flush();
 //			outputStream.close();
 		} catch (IOException ioe) {
-			ConsoleLog.e("访问图片异常 imageUrl=" + imageUrl, ioe);
+			Log.e("访问图片异常 imageUrl=" + imageUrl, ioe);
 		}
 	}
 }
