@@ -4,6 +4,7 @@ import com.tauros.kaleido.core.constant.ExHentaiConstant;
 import com.tauros.kaleido.core.model.bean.ExHentaiListParamBean;
 import com.tauros.kaleido.core.model.bo.ExHentaiGalleryBO;
 import com.tauros.kaleido.core.model.bo.ExHentaiListBO;
+import com.tauros.kaleido.core.model.bo.ExHentaiPhotoBO;
 import com.tauros.kaleido.core.service.ExHentaiService;
 import com.tauros.kaleido.core.util.ConsoleLog;
 import com.tauros.kaleido.core.util.SystemUtils;
@@ -111,7 +112,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		}
 
 		Map<String, Object> pageResult = exHentaiService.galleryPage(oriUrl, large, page);
-		//转换列表展示元素参数
+		//转换相册展示元素参数
 		convertGalleryBO((List<ExHentaiGalleryBO>) pageResult.get(GALLERY_BO_KEY));
 
 		for (Map.Entry<String, Object> entry : pageResult.entrySet()) {
@@ -132,8 +133,16 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 	}
 
 	@RequestMapping("photo")
-	public String photo(String oriUrl) {
-		return "";
+	public String photo(Model model, String oriUrl) {
+		Map<String, Object> pageResult = exHentaiService.photoPage(oriUrl);
+		//转换图片展示元素参数
+		convertPhotoBO((ExHentaiPhotoBO) pageResult.get(PHOTO_BO_KEY));
+
+		for (Map.Entry<String, Object> entry : pageResult.entrySet()) {
+			model.addAttribute(entry.getKey(), entry.getValue());
+		}
+
+		return "exhentai/exhentaiPhoto";
 	}
 
 	@RequestMapping("download")
@@ -192,5 +201,17 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 			exHentaiGalleryBO.setPhotoUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiGalleryBO.getPhotoUrl()));
 		}
 		return exHentaiGalleryBOs;
+	}
+
+	private static ExHentaiPhotoBO convertPhotoBO(ExHentaiPhotoBO exHentaiPhotoBO) {
+		if (exHentaiPhotoBO == null) {
+			return null;
+		}
+		exHentaiPhotoBO.setPhotoImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiPhotoBO.getPhotoImg()));
+		exHentaiPhotoBO.setFirstPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getFirstPageUrl()));
+		exHentaiPhotoBO.setPrevPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getPrevPageUrl()));
+		exHentaiPhotoBO.setNextPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getNextPageUrl()));
+		exHentaiPhotoBO.setLastPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getLastPageUrl()));
+		return exHentaiPhotoBO;
 	}
 }

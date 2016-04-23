@@ -31,7 +31,7 @@
         </div>
     </div>
     <div style="float: right; position: absolute; right: 0px; padding: 8px 8px 0 0; width: 500px;">
-        <a id="toggle_large" href="javascript:setLarge(!${large?string('true','false')})">
+        <a id="toggle_large" href="javascript:setLarge(!${large?string('true','false')});">
         <#if large>
             小图浏览
         <#else>
