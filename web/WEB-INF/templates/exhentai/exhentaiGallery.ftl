@@ -10,7 +10,7 @@
         }
     </style>
 </head>
-<body style="margin: 0; padding: 0 0;">
+<body style="margin: 0; padding: 0 0;text-align: center;">
 <div style="width: 100%; height: auto; position: fixed; background-color: white; z-index: 99;">
     <div style="float: left; display: inline; width: 100%; padding: 8px; border-bottom: solid 1px black;">
         <div style="margin: 0 auto 0 auto; width: 630px;">
@@ -75,21 +75,21 @@
     </div>
 </div>
 <#-- 图片列表-->
-<div style="width: 100%; height: auto; position: absolute;">
-    <div style="width: 1400px; margin: 55px auto 0 auto; text-align: center;">
+<div style="position: absolute; width: 100%; height: auto;">
+    <div style="width: 1200px; margin: 65px auto 0 auto; display: block;">
     <#if galleryBOs??>
         <#list galleryBOs as bo>
             <#if large>
                 <div onclick="openUrl('${(bo.photoUrl)!}')"
-                     style="cursor: pointer; display: inline-block; height: 320px; width: 240px; margin: 5px; /*border: solid 1px bisque;*/">
+                     style="cursor: pointer; display: block; float: left; height: 320px; width: 240px; /*border: solid 1px bisque;*/">
                     <img title="${(bo.title)!}" src="${contextPath}${(bo.largeImg)!}" style="border: solid 1px;"/>
                 </div>
             <#else>
                 <div onclick="openUrl('${(bo.photoUrl)!}')"
-                     style="cursor: pointer; display: inline-block; height: 160px; width: 120px; margin: 5px; /*border: solid 1px bisque;*/">
-                    <div style="border: solid 1px; margin:1px auto 0; width:100px; height:142px; background:transparent url(${contextPath}${(bo.smallImg)!}) ${(bo.smallImgXOffset)!}px ${(bo.smallImgYOffset)!}px no-repeat">
+                     style="cursor: pointer; display: block; float: left; height: 170px; width: 120px; text-align: center; /*border: solid 1px bisque;*/">
+                    <div style="margin:1px auto 0; width:${(bo.smallImgWidth)!}px; height:${(bo.smallImgHeight + 1)!}px; background:transparent url(${contextPath}${(bo.smallImg)!}) ${(bo.smallImgXOffset)!}px ${(bo.smallImgYOffset)!}px no-repeat">
                         <img title="${(bo.title)!}" src="${contextPath}${(bo.smallImgPlaceHolder)!}"
-                             style="width:100px; height:141px; margin:-1px 0 0 -1px"/>
+                             style="border: solid 1px; width:${(bo.smallImgWidth)!}px; height:${(bo.smallImgHeight)!}px; margin:-1px 0 0 -1px"/>
                     </div>
                 </div>
             </#if>

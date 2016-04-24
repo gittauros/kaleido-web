@@ -12,6 +12,7 @@ import com.tauros.kaleido.web.controller.BaseController;
 import com.tauros.kaleido.web.util.ExHentaiUrlConverter;
 import com.tauros.kaleido.web.util.ImageUrlConverter;
 import com.tauros.kaleido.web.util.RequestUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,6 +81,11 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		Map<String, Object> pageResult = exHentaiService.searchListPage(paramBean);
 		//转换列表展示元素参数
 		convertListBO((List<ExHentaiListBO>) pageResult.get(LIST_BO_KEY));
+		int maxPage = (Integer) pageResult.get(MAX_PAGE_KEY);
+		boolean overMaxPage = page > maxPage;
+		if (overMaxPage) {
+			page = maxPage;
+		}
 
 		for (Map.Entry<String, Object> entry : pageResult.entrySet()) {
 			model.addAttribute(entry.getKey(), entry.getValue());
@@ -98,6 +104,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		model.addAttribute("fasianporn", fAsianporn == 1);
 		model.addAttribute("fmisc", fMisc == 1);
 		model.addAttribute("page", page);
+		model.addAttribute("overMaxPage", overMaxPage);
 		model.addAttribute("savePath", SystemUtils.getSavePath());
 		return "exhentai/exhentaiList";
 	}
@@ -114,6 +121,10 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		Map<String, Object> pageResult = exHentaiService.galleryPage(oriUrl, large, page);
 		//转换相册展示元素参数
 		convertGalleryBO((List<ExHentaiGalleryBO>) pageResult.get(GALLERY_BO_KEY));
+		int maxPage = (Integer) pageResult.get(MAX_PAGE_KEY);
+		if (page > maxPage) {
+			page = maxPage;
+		}
 
 		for (Map.Entry<String, Object> entry : pageResult.entrySet()) {
 			model.addAttribute(entry.getKey(), entry.getValue());

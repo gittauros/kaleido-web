@@ -415,6 +415,11 @@
         })
     }
 
+    var overMaxPage = ${overMaxPage?string("true", "false")};
+    if (overMaxPage) {
+        page_change(${(maxPage)!});
+    }
+
     function openUrl(url) {
         window.open("${contextPath}" + url);
     }
