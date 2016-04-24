@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>exhentai - gallery</title>
+    <title>exhentai - photo</title>
     <script src="${(contextPath)!}/js/jquery.min.js"></script>
     <style>
         html, body, p {
@@ -27,7 +27,7 @@
 <div style="width: 100%; height: auto; position: absolute;">
     <div style="width: 1400px; margin: 55px auto 20px auto; text-align: center;">
         <img src="${contextPath}${(photoBO.photoImg)!}"
-             style="border: solid 1px; width: 1063px; height: 1500px; max-width: 1063px; max-height: 1500px;"/>
+             style="border: solid 1px; width: ${(photoBO.imgWidth)!}px; height: ${(photoBO.imgHeight)!}px; max-width: ${(photoBO.imgWidth)!}px; max-height: ${(photoBO.imgHeight)!}px;"/>
     </div>
 </div>
 </body>
