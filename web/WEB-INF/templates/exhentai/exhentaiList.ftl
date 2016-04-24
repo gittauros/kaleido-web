@@ -212,7 +212,8 @@
 <#if listBOs??>
     <#list listBOs as bo>
         <div style="display: inline-block; height: 450px; width: 300px; margin: 5px; border: solid 1px bisque;">
-            <div style="display: block; width: 100%; height: 300px; margin-top: 5px; cursor:pointer;" onclick="openUrl('${(bo.galleryUrl)!}')">
+            <div style="display: block; width: 100%; height: 300px; margin-top: 5px; cursor:pointer;"
+                 onclick="openUrl('${(bo.galleryUrl)!}')">
                 <img style="max-width: 100%; max-height: 100%; margin: auto;" src="${contextPath}${(bo.coverImg)!}"/>
             </div>
             <div style="display: block; width: 100%; text-align: center; margin-top:5px;">
