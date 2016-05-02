@@ -14,6 +14,9 @@ ${message_cn}
         <br>
     ${response}
     </p>
+    <p>
+        <a href="${contextPath}/exhentai/list">里</a>
+    </p>
 </div>
 </body>
 </html>
