@@ -7,12 +7,11 @@ import com.tauros.kaleido.core.model.bo.ExHentaiListBO;
 import com.tauros.kaleido.core.model.bo.ExHentaiPhotoBO;
 import com.tauros.kaleido.core.service.ExHentaiService;
 import com.tauros.kaleido.core.util.ConsoleLog;
-import com.tauros.kaleido.core.util.SystemUtils;
+import com.tauros.kaleido.core.util.SystemUtil;
 import com.tauros.kaleido.web.controller.BaseController;
 import com.tauros.kaleido.web.util.ExHentaiUrlConverter;
 import com.tauros.kaleido.web.util.ImageUrlConverter;
 import com.tauros.kaleido.web.util.RequestUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -105,7 +104,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		model.addAttribute("fmisc", fMisc == 1);
 		model.addAttribute("page", page);
 		model.addAttribute("overMaxPage", overMaxPage);
-		model.addAttribute("savePath", SystemUtils.getSavePath());
+		model.addAttribute("savePath", SystemUtil.getSavePath());
 		return "exhentai/exhentaiList";
 	}
 
@@ -139,7 +138,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		model.addAttribute("oriUrl", oriUrl);
 		model.addAttribute("large", large);
 		model.addAttribute("page", page);
-		model.addAttribute("savePath", SystemUtils.getSavePath());
+		model.addAttribute("savePath", SystemUtil.getSavePath());
 		return "exhentai/exhentaiGallery";
 	}
 
@@ -185,7 +184,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 	@RequestMapping("modifySavePath")
 	@ResponseBody
 	public String modifySavePath(String savePath) {
-		boolean result = SystemUtils.setSavePath(savePath);
+		boolean result = SystemUtil.setSavePath(savePath);
 		return result ? "success" : "failed";
 	}
 
