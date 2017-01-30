@@ -279,8 +279,8 @@
         var fasianporn = document.getElementById("fasianporn").checked;
         var fmisc = document.getElementById("fmisc").checked;
 
-        return "${contextPath!}/exhentai/list?" +
-                "search=" + search_key +
+        var searchUrl = "${contextPath!}/exhentai/list?" +
+                "search=" + encodeURIComponent(search_key) +
                 "&f_apply=" + f_apply +
                 "&fdoujinshi=" + fdoujinshi +
                 "&fmanga=" + fmanga +
@@ -292,6 +292,7 @@
                 "&fcosplay=" + fcosplay +
                 "&fasianporn=" + fasianporn +
                 "&fmisc=" + fmisc;
+        return searchUrl;
     }
 
     function ex_search() {
