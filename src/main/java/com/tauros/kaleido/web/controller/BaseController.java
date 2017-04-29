@@ -5,4 +5,5 @@ package com.tauros.kaleido.web.controller;
  */
 public abstract class BaseController {
 
+
 }
