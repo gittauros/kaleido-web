@@ -15,8 +15,8 @@ public class HomeController extends BaseController {
 
 	@RequestMapping({"/", "home", "index"})
 	public String homePage(HttpServletRequest request, HttpServletResponse response, Model model) {
-		model.addAttribute(request);
-		model.addAttribute(response);
+		model.addAttribute("request", request);
+		model.addAttribute("response", response);
 		model.addAttribute("message", "Welcome to Kaleido!");
 		model.addAttribute("message_cn", "欢迎来到万花镜!");
 		return "index";
