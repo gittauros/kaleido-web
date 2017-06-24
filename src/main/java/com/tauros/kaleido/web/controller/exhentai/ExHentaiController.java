@@ -11,8 +11,6 @@ import com.tauros.kaleido.web.controller.BaseController;
 import com.tauros.kaleido.web.util.ExHentaiUrlConverter;
 import com.tauros.kaleido.web.util.ImageUrlConverter;
 import com.tauros.kaleido.web.util.RequestUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +30,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("exhentai")
 public class ExHentaiController extends BaseController implements ExHentaiConstant {
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     private ExHentaiService exHentaiService;

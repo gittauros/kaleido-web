@@ -1,8 +1,6 @@
 package com.tauros.kaleido.web.controller;
 
 import com.tauros.kaleido.core.service.ExHentaiService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,8 +16,6 @@ import java.io.OutputStream;
 @Controller
 @RequestMapping("image")
 public class ImageController extends BaseController {
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     private ExHentaiService exHentaiService;
