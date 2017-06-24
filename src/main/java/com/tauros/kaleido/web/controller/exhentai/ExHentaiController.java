@@ -6,12 +6,13 @@ import com.tauros.kaleido.core.model.bo.ExHentaiGalleryBO;
 import com.tauros.kaleido.core.model.bo.ExHentaiListBO;
 import com.tauros.kaleido.core.model.bo.ExHentaiPhotoBO;
 import com.tauros.kaleido.core.service.ExHentaiService;
-import com.tauros.kaleido.core.util.ConsoleLog;
 import com.tauros.kaleido.core.util.SystemUtil;
 import com.tauros.kaleido.web.controller.BaseController;
 import com.tauros.kaleido.web.util.ExHentaiUrlConverter;
 import com.tauros.kaleido.web.util.ImageUrlConverter;
 import com.tauros.kaleido.web.util.RequestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,7 @@ import java.util.Map;
 @RequestMapping("exhentai")
 public class ExHentaiController extends BaseController implements ExHentaiConstant {
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Resource
     private ExHentaiService exHentaiService;
@@ -176,7 +178,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
                 saveBasePath = saveBasePath + "/";
             }
         }
-        ConsoleLog.e("请求下载");
+        logger.info(String.format("request for download url=%s", url));
         String msg = exHentaiService.download(saveBasePath, url, sleep, origin);
 
         return msg;

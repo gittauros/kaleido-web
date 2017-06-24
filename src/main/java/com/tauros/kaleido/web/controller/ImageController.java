@@ -1,7 +1,8 @@
 package com.tauros.kaleido.web.controller;
 
 import com.tauros.kaleido.core.service.ExHentaiService;
-import com.tauros.kaleido.core.util.ConsoleLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,22 +19,24 @@ import java.io.OutputStream;
 @RequestMapping("image")
 public class ImageController extends BaseController {
 
-	@Resource
-	private ExHentaiService exHentaiService;
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@RequestMapping("exhentaiImage")
-	@ResponseBody
-	public void image(HttpServletResponse response, String imageUrl) {
-		response.setContentType("image/jpeg");
-		byte[] imageData = exHentaiService.image(imageUrl);
+    @Resource
+    private ExHentaiService exHentaiService;
 
-		try {
-			OutputStream outputStream = response.getOutputStream();
-			outputStream.write(imageData);
-			outputStream.flush();
+    @RequestMapping("exhentaiImage")
+    @ResponseBody
+    public void image(HttpServletResponse response, String imageUrl) {
+        response.setContentType("image/jpeg");
+        byte[] imageData = exHentaiService.image(imageUrl);
+
+        try {
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(imageData);
+            outputStream.flush();
 //			outputStream.close();
-		} catch (IOException ioe) {
-			ConsoleLog.e("访问图片异常 imageUrl=" + imageUrl, ioe);
-		}
-	}
+        } catch (IOException ioe) {
+            logger.warn("visit image exception imageUrl=" + imageUrl, ioe);
+        }
+    }
 }
