@@ -1,5 +1,6 @@
 package com.tauros.kaleido.web.controller.exhentai;
 
+import com.alibaba.fastjson.JSON;
 import com.tauros.kaleido.core.constant.ExHentaiConstant;
 import com.tauros.kaleido.core.model.bean.ExHentaiListParamBean;
 import com.tauros.kaleido.core.model.bo.ExHentaiGalleryBO;
@@ -12,6 +13,8 @@ import com.tauros.kaleido.web.controller.BaseController;
 import com.tauros.kaleido.web.util.ExHentaiUrlConverter;
 import com.tauros.kaleido.web.util.ImageUrlConverter;
 import com.tauros.kaleido.web.util.RequestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("exhentai")
 public class ExHentaiController extends BaseController implements ExHentaiConstant {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Resource
 	private ExHentaiService exHentaiService;
@@ -78,6 +83,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		paramBean.setfMisc(fMisc);
 
 		Map<String, Object> pageResult = exHentaiService.searchListPage(paramBean);
+		logger.info("exhentai searchListPage result:{}", JSON.toJSONString(pageResult));
 		//转换列表展示元素参数
 		convertListBO((List<ExHentaiListBO>) pageResult.get(LIST_BO_KEY));
 		int maxPage = (Integer) pageResult.get(MAX_PAGE_KEY);
