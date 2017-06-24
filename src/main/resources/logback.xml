@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
     <property name="APP_NAME" value="kaleido"/>
-    <property name="LOG_DIRECTORY" value="~/work/myapps/kaleido/logs"/>
+    <property name="LOG_DIRECTORY" value="${user.home}/work/myapps/kaleido/logs"/>
     <property name="NORMAL_LOG_PATTERN" value="%d [%thread] %-5p [%c] [%F:%L] - %msg%n"/>
     <contextName>${APP_NAME}</contextName>
 
