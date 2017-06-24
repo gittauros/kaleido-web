@@ -13,19 +13,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class GlobalInterceptor implements HandlerInterceptor {
 
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-		return true;
-	}
+        return true;
+    }
 
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-		if (modelAndView != null && request.getAttribute("contextPath") == null) {
-			modelAndView.addObject("contextPath", request.getContextPath());
-		}
-	}
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        if (modelAndView != null && request.getAttribute("contextPath") == null) {
+            modelAndView.addObject("contextPath", request.getContextPath());
+        }
+    }
 
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
-	}
+    }
 
 }

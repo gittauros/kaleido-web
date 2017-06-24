@@ -38,6 +38,43 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
     @Resource
     private ExHentaiService exHentaiService;
 
+    private static List<ExHentaiListBO> convertListBO(List<ExHentaiListBO> exHentaiListBOs) {
+        if (exHentaiListBOs == null) {
+            return null;
+        }
+        for (ExHentaiListBO exHentaiListBO : exHentaiListBOs) {
+            exHentaiListBO.setCoverImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiListBO.getCoverImg()));
+            exHentaiListBO.setTagImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiListBO.getTagImg()));
+            exHentaiListBO.setGalleryUrl(ExHentaiUrlConverter.convertExhentaiGalleryUrl(exHentaiListBO.getGalleryUrl()));
+        }
+        return exHentaiListBOs;
+    }
+
+    private static List<ExHentaiGalleryBO> convertGalleryBO(List<ExHentaiGalleryBO> exHentaiGalleryBOs) {
+        if (exHentaiGalleryBOs == null) {
+            return null;
+        }
+        for (ExHentaiGalleryBO exHentaiGalleryBO : exHentaiGalleryBOs) {
+            exHentaiGalleryBO.setLargeImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getLargeImg()));
+            exHentaiGalleryBO.setSmallImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getSmallImg()));
+            exHentaiGalleryBO.setSmallImgPlaceHolder(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getSmallImgPlaceHolder()));
+            exHentaiGalleryBO.setPhotoUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiGalleryBO.getPhotoUrl()));
+        }
+        return exHentaiGalleryBOs;
+    }
+
+    private static ExHentaiPhotoBO convertPhotoBO(ExHentaiPhotoBO exHentaiPhotoBO) {
+        if (exHentaiPhotoBO == null) {
+            return null;
+        }
+        exHentaiPhotoBO.setPhotoImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiPhotoBO.getPhotoImg()));
+        exHentaiPhotoBO.setFirstPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getFirstPageUrl()));
+        exHentaiPhotoBO.setPrevPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getPrevPageUrl()));
+        exHentaiPhotoBO.setNextPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getNextPageUrl()));
+        exHentaiPhotoBO.setLastPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getLastPageUrl()));
+        return exHentaiPhotoBO;
+    }
+
     @RequestMapping("list")
     public String exhentaiList(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
         String search = request.getParameter("search");
@@ -189,42 +226,5 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
     public String modifySavePath(String savePath) {
         boolean result = SystemUtil.setSavePath(savePath);
         return result ? "success" : "failed";
-    }
-
-    private static List<ExHentaiListBO> convertListBO(List<ExHentaiListBO> exHentaiListBOs) {
-        if (exHentaiListBOs == null) {
-            return null;
-        }
-        for (ExHentaiListBO exHentaiListBO : exHentaiListBOs) {
-            exHentaiListBO.setCoverImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiListBO.getCoverImg()));
-            exHentaiListBO.setTagImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiListBO.getTagImg()));
-            exHentaiListBO.setGalleryUrl(ExHentaiUrlConverter.convertExhentaiGalleryUrl(exHentaiListBO.getGalleryUrl()));
-        }
-        return exHentaiListBOs;
-    }
-
-    private static List<ExHentaiGalleryBO> convertGalleryBO(List<ExHentaiGalleryBO> exHentaiGalleryBOs) {
-        if (exHentaiGalleryBOs == null) {
-            return null;
-        }
-        for (ExHentaiGalleryBO exHentaiGalleryBO : exHentaiGalleryBOs) {
-            exHentaiGalleryBO.setLargeImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getLargeImg()));
-            exHentaiGalleryBO.setSmallImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getSmallImg()));
-            exHentaiGalleryBO.setSmallImgPlaceHolder(ImageUrlConverter.convertExhentaiImageUrl(exHentaiGalleryBO.getSmallImgPlaceHolder()));
-            exHentaiGalleryBO.setPhotoUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiGalleryBO.getPhotoUrl()));
-        }
-        return exHentaiGalleryBOs;
-    }
-
-    private static ExHentaiPhotoBO convertPhotoBO(ExHentaiPhotoBO exHentaiPhotoBO) {
-        if (exHentaiPhotoBO == null) {
-            return null;
-        }
-        exHentaiPhotoBO.setPhotoImg(ImageUrlConverter.convertExhentaiImageUrl(exHentaiPhotoBO.getPhotoImg()));
-        exHentaiPhotoBO.setFirstPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getFirstPageUrl()));
-        exHentaiPhotoBO.setPrevPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getPrevPageUrl()));
-        exHentaiPhotoBO.setNextPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getNextPageUrl()));
-        exHentaiPhotoBO.setLastPageUrl(ExHentaiUrlConverter.convertExhentaiPhotoUrl(exHentaiPhotoBO.getLastPageUrl()));
-        return exHentaiPhotoBO;
     }
 }

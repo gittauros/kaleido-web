@@ -46,11 +46,11 @@
     <!-- 异步输出 -->
     <appender name="INFO_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-        <discardingThreshold >0</discardingThreshold>
+        <discardingThreshold>0</discardingThreshold>
         <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
         <queueSize>512</queueSize>
         <!-- 添加附加的appender,最多只能添加一个 -->
-        <appender-ref ref ="kaleidoInfoFile"/>
+        <appender-ref ref="kaleidoInfoFile"/>
         <includeCallerData>true</includeCallerData>
     </appender>
 
@@ -70,7 +70,7 @@
     <!-- 异步输出 -->
     <appender name="ERROR_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-        <discardingThreshold >0</discardingThreshold>
+        <discardingThreshold>0</discardingThreshold>
         <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
         <queueSize>2048</queueSize>
         <!-- 添加附加的appender,最多只能添加一个 -->
@@ -102,7 +102,7 @@
     <!-- 异步输出 -->
     <appender name="EXCEPTION_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-        <discardingThreshold >0</discardingThreshold>
+        <discardingThreshold>0</discardingThreshold>
         <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
         <queueSize>2048</queueSize>
         <!-- 添加附加的appender,最多只能添加一个 -->
@@ -117,10 +117,10 @@
 
     <!-- 需要关注的库 -->
     <logger name="org.apache">
-        <level value="INFO" />
+        <level value="INFO"/>
     </logger>
     <logger name="org.springframework">
-        <level value="INFO" />
+        <level value="INFO"/>
     </logger>
 
     <!-- 日志输出级别 -->

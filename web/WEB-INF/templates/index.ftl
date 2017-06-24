@@ -15,7 +15,7 @@ ${message_cn}
     ${response}
     </p>
     <p>
-        <#--<a href="${contextPath}/exhentai/list" target="_blank">里</a>-->
+    <#--<a href="${contextPath}/exhentai/list" target="_blank">里</a>-->
     </p>
 </div>
 </body>

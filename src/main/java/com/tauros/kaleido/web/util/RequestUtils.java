@@ -10,28 +10,28 @@ import javax.servlet.http.HttpServletRequest;
  */
 public final class RequestUtils {
 
-	public static long getLong(HttpServletRequest request, String key) {
-		return NumberUtils.toLong(request.getParameter(key), 0);
-	}
+    public static long getLong(HttpServletRequest request, String key) {
+        return NumberUtils.toLong(request.getParameter(key), 0);
+    }
 
-	public static int getInt(HttpServletRequest request, String key) {
-		return NumberUtils.toInt(request.getParameter(key), 0);
-	}
+    public static int getInt(HttpServletRequest request, String key) {
+        return NumberUtils.toInt(request.getParameter(key), 0);
+    }
 
-	public static int getBooleanInt(HttpServletRequest request, String key) {
-		String value = request.getParameter(key);
-		boolean res = false;
-		if (StringUtils.isNotBlank(value)) {
-			res = "1".equals(value) || "true".equals(value);
-		}
-		return res ? 1 : 0;
-	}
+    public static int getBooleanInt(HttpServletRequest request, String key) {
+        String value = request.getParameter(key);
+        boolean res = false;
+        if (StringUtils.isNotBlank(value)) {
+            res = "1".equals(value) || "true".equals(value);
+        }
+        return res ? 1 : 0;
+    }
 
-	public static boolean getBoolean(HttpServletRequest request, String key) {
-		String value = request.getParameter(key);
-		if (StringUtils.isNotBlank(value)) {
-			return "1".equals(value) || "true".equals(value);
-		}
-		return false;
-	}
+    public static boolean getBoolean(HttpServletRequest request, String key) {
+        String value = request.getParameter(key);
+        if (StringUtils.isNotBlank(value)) {
+            return "1".equals(value) || "true".equals(value);
+        }
+        return false;
+    }
 }
