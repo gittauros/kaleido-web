@@ -11,10 +11,8 @@
     <appender name="ConsoleOut" class="ch.qos.logback.core.ConsoleAppender">
         <!-- 日志输出编码 -->
         <target>System.out</target>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
-            <level>DEBUG</level>
-            <level>TRACE</level>
         </filter>
         <Encoding>UTF-8</Encoding>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -25,9 +23,8 @@
     <appender name="ConsoleErr" class="ch.qos.logback.core.ConsoleAppender">
         <!-- 日志输出编码 -->
         <target>System.err</target>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
-            <level>ERROR</level>
         </filter>
         <Encoding>UTF-8</Encoding>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -42,13 +39,12 @@
             <fileNamePattern>${LOG_DIRECTORY}/kaleido-info.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
-        <append>false</append>
         <encoder charset="UTF-8">
             <pattern>${NORMAL_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
     <!-- 异步输出 -->
-    <appender name ="INFO_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+    <appender name="INFO_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
         <discardingThreshold >0</discardingThreshold>
         <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
@@ -59,25 +55,24 @@
     </appender>
 
     <appender name="kaleidoErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIRECTORY}/kaleido-error.log</file>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level> <!-- 输出WARN及以上日志，包括WARN -->
         </filter>
+        <file>${LOG_DIRECTORY}/kaleido-error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOG_DIRECTORY}/kaleido-error.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
-        <append>false</append>
         <encoder charset="UTF-8">
             <pattern>${NORMAL_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
     <!-- 异步输出 -->
-    <appender name ="ERROR_ASYNC" class= "ch.qos.logback.classic.AsyncAppender">
+    <appender name="ERROR_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
         <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
         <discardingThreshold >0</discardingThreshold>
         <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
-        <queueSize>512</queueSize>
+        <queueSize>2048</queueSize>
         <!-- 添加附加的appender,最多只能添加一个 -->
         <appender-ref ref ="kaleidoErrorFile"/>
         <includeCallerData>true</includeCallerData>
