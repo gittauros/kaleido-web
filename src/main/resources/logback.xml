@@ -115,6 +115,14 @@
         <appender-ref ref="EXCEPTION_ASYNC"/>
     </logger>
 
+    <!-- 需要关注的库 -->
+    <logger name="org.apache">
+        <level value="INFO" />
+    </logger>
+    <logger name="org.springframework">
+        <level value="INFO" />
+    </logger>
+
     <!-- 日志输出级别 -->
     <root>
         <level value="INFO"/>
