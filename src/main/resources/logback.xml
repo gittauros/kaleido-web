@@ -110,7 +110,7 @@
         <includeCallerData>true</includeCallerData>
     </appender>
     <!-- 处理异常logger -->
-    <logger name="kaleidoExceptionLogger" additivity="false">
+    <logger name="kaleidoExceptionLogger" additivity="true">
         <level>WARN</level>
         <appender-ref ref="EXCEPTION_ASYNC"/>
     </logger>
