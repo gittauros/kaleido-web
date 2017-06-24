@@ -36,7 +36,7 @@ public class ImageController extends BaseController {
             outputStream.flush();
 //			outputStream.close();
         } catch (IOException ioe) {
-            logger.warn("visit image exception imageUrl=" + imageUrl, ioe);
+            logger.warn("image output exception imageUrl=" + imageUrl, ioe);
         }
     }
 }
