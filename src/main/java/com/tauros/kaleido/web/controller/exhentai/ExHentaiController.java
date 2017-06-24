@@ -83,7 +83,7 @@ public class ExHentaiController extends BaseController implements ExHentaiConsta
 		paramBean.setfMisc(fMisc);
 
 		Map<String, Object> pageResult = exHentaiService.searchListPage(paramBean);
-		logger.info("exhentai searchListPage result:{}", JSON.toJSONString(pageResult));
+		logger.info("exhentai searchList", JSON.toJSONString(pageResult));
 		//转换列表展示元素参数
 		convertListBO((List<ExHentaiListBO>) pageResult.get(LIST_BO_KEY));
 		int maxPage = (Integer) pageResult.get(MAX_PAGE_KEY);
