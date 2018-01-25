@@ -274,7 +274,7 @@ public class Demo implements Serializable {
             double dietaryFiberVal = this.dietaryFiber.doubleValue();
             double expectDietaryFiber = Math.max(minDietary, mid(mid((targetCarbohydrate / 4), minDietary), minDietary));
             double dietaryScore = expectDietaryFiber - (Math.abs(dietaryFiberVal - expectDietaryFiber));
-            return score.add(new BigDecimal(dietaryScore / 7)).setScale(14, BigDecimal.ROUND_HALF_UP);
+            return score.add(new BigDecimal(dietaryScore / 10)).setScale(14, BigDecimal.ROUND_HALF_UP);
         }
 
         private double mid(double a, double b) {
@@ -678,20 +678,22 @@ public class Demo implements Serializable {
     }
 
     public static void main(String[] args) {
-        JSONArray array = JSONArray.parseArray("[{\"p\":\"8\",\"c\":\"76.8\",\"f\":\"2.9\",\"name\":\"糙米\",\"h\":\"372.4\",\"x\":\"3.2\",\"fs\":\"100\",\"ps\":\"50\"},{\"p\":\"19.9\",\"c\":\"2\",\"f\":\"4.2\",\"name\":\"牛肉\",\"h\":\"125\",\"x\":\"0\",\"fs\":\"100\",\"ps\":\"50\"},{\"p\":\"20.2\",\"c\":\"0.7\",\"f\":\"7.9\",\"name\":\"猪里脊\",\"h\":\"155\",\"x\":\"0\",\"fs\":\"100\",\"ps\":\"50\"},{\"p\":\"19.4\",\"c\":\"2.5\",\"f\":\"5\",\"name\":\"鸡胸肉\",\"h\":\"133\",\"x\":\"0\",\"fs\":\"100\",\"ps\":\"50\"},{\"p\":\"10.4\",\"c\":\"0\",\"f\":\"0.7\",\"name\":\"虾仁\",\"h\":\"48\",\"x\":\"0\",\"fs\":\"100\",\"ps\":\"50\"},{\"p\":\"20.4\",\"c\":\"0.5\",\"f\":\"0.5\",\"name\":\"鳕鱼\",\"h\":\"88\",\"x\":\"0\",\"fs\":\"100\",\"ps\":\"50\"},{\"p\":\"17.2\",\"c\":\"0\",\"f\":\"7.8\",\"name\":\"三文鱼\",\"h\":\"139\",\"x\":\"0\",\"fs\":\"100\",\"ps\":\"50\"},{\"p\":\"4.1\",\"c\":\"2.7\",\"f\":\"0.6\",\"name\":\"西兰花\",\"h\":\"36\",\"x\":\"1.6\",\"fs\":\"200\",\"ps\":\"100\"},{\"p\":\"1.2\",\"c\":\"3.3\",\"f\":\"0.2\",\"name\":\"芹菜茎\",\"h\":\"22\",\"x\":\"1.2\",\"fs\":\"200\",\"ps\":\"100\"},{\"p\":\"2.7\",\"c\":\"2.6\",\"f\":\"0.2\",\"name\":\"毛毛菜\",\"h\":\"23\",\"x\":\"2.1\",\"fs\":\"200\",\"ps\":\"100\"},{\"p\":\"1.6\",\"c\":\"2.8\",\"f\":\"0.3\",\"name\":\"木耳菜\",\"h\":\"23\",\"x\":\"1.5\",\"fs\":\"200\",\"ps\":\"100\"}]");
+        String str = "[{\"food\":{\"protein\":\"6.5\",\"carbohydrate\":\"46.3\",\"fat\":\"2.1\",\"name\":\"辣椒酱\",\"calorie\":\"232\",\"dietaryFiber\":\"0\"},\"firstServ\":\"5\",\"perServ\":\"5\"},{\"food\":{\"protein\":\"8\",\"carbohydrate\":\"76.8\",\"fat\":\"2.9\",\"name\":\"糙米\",\"calorie\":\"372.4\",\"dietaryFiber\":\"3.2\"},\"firstServ\":\"60\",\"perServ\":\"5\"},{\"food\":{\"protein\":\"8.4\",\"carbohydrate\":\"77.2\",\"fat\":\"0.7\",\"name\":\"白米\",\"calorie\":\"335\",\"dietaryFiber\":\"3.5\"},\"firstServ\":\"60\",\"perServ\":\"5\"},{\"food\":{\"protein\":\"19.9\",\"carbohydrate\":\"2\",\"fat\":\"4.2\",\"name\":\"牛肉\",\"calorie\":\"125\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"9.3\",\"carbohydrate\":\"0\",\"fat\":\"59\",\"name\":\"猪五花肉\",\"calorie\":\"568\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"17\",\"carbohydrate\":\"0\",\"fat\":\"28\",\"name\":\"猪后肘\",\"calorie\":\"320\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"20.3\",\"carbohydrate\":\"1.5\",\"fat\":\"6.2\",\"name\":\"猪瘦肉\",\"calorie\":\"143\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"20.2\",\"carbohydrate\":\"0.7\",\"fat\":\"7.9\",\"name\":\"猪里脊\",\"calorie\":\"155\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"19.4\",\"carbohydrate\":\"2.5\",\"fat\":\"5\",\"name\":\"鸡胸肉\",\"calorie\":\"133\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"10.4\",\"carbohydrate\":\"0\",\"fat\":\"0.7\",\"name\":\"虾仁\",\"calorie\":\"48\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"20.4\",\"carbohydrate\":\"0.5\",\"fat\":\"0.5\",\"name\":\"鳕鱼\",\"calorie\":\"88\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"17.2\",\"carbohydrate\":\"0\",\"fat\":\"7.8\",\"name\":\"三文鱼\",\"calorie\":\"139\",\"dietaryFiber\":\"0\"},\"firstServ\":\"50\",\"perServ\":\"25\"},{\"food\":{\"protein\":\"4.1\",\"carbohydrate\":\"2.7\",\"fat\":\"0.6\",\"name\":\"西兰花\",\"calorie\":\"36\",\"dietaryFiber\":\"1.6\"},\"firstServ\":\"100\",\"perServ\":\"50\"},{\"food\":{\"protein\":\"1.2\",\"carbohydrate\":\"3.3\",\"fat\":\"0.2\",\"name\":\"芹菜茎\",\"calorie\":\"22\",\"dietaryFiber\":\"1.2\"},\"firstServ\":\"100\",\"perServ\":\"50\"},{\"food\":{\"protein\":\"2.7\",\"carbohydrate\":\"2.6\",\"fat\":\"0.2\",\"name\":\"毛毛菜\",\"calorie\":\"23\",\"dietaryFiber\":\"2.1\"},\"firstServ\":\"100\",\"perServ\":\"50\"},{\"food\":{\"protein\":\"1.6\",\"carbohydrate\":\"2.8\",\"fat\":\"0.3\",\"name\":\"木耳菜\",\"calorie\":\"23\",\"dietaryFiber\":\"1.5\"},\"firstServ\":\"100\",\"perServ\":\"50\"},{\"food\":{\"protein\":\"1.1\",\"carbohydrate\":\"8.1\",\"fat\":\"0.2\",\"name\":\"洋葱\",\"calorie\":\"40\",\"dietaryFiber\":\"0.9\"},\"firstServ\":\"100\",\"perServ\":\"50\"}]";
+        JSONArray array = JSONArray.parseArray(str);
         List<Food> foodList = new ArrayList<>();
         for (int i = 0; i < array.size(); i++) {
             JSONObject object = array.getJSONObject(i);
+            JSONObject foodJSON = object.getJSONObject("food");
             Food food = new Food();
-            food.setName(object.getString("name"));
-            food.setProtein(new BigDecimal(object.getString("p")));
-            food.setCarbohydrate(new BigDecimal(object.getString("c")));
-            food.setFat(new BigDecimal(object.getString("f")));
-            food.setCalorie(new BigDecimal(object.getString("h")));
-            food.setDietaryFiber(new BigDecimal(object.getString("x")));
-            food.setFirstServ(new BigDecimal(object.getString("fs")));
-            food.setPerServ(new BigDecimal(object.getString("ps")));
-            int[] selection = new int[]{0, 2, 3, 7, 9};
+            food.setName(foodJSON.getString("name"));
+            food.setProtein(new BigDecimal(foodJSON.getString("protein")));
+            food.setCarbohydrate(new BigDecimal(foodJSON.getString("carbohydrate")));
+            food.setFat(new BigDecimal(foodJSON.getString("fat")));
+            food.setCalorie(new BigDecimal(foodJSON.getString("calorie")));
+            food.setDietaryFiber(new BigDecimal(foodJSON.getString("dietaryFiber")));
+            food.setFirstServ(new BigDecimal(object.getString("firstServ")));
+            food.setPerServ(new BigDecimal(object.getString("perServ")));
+            int[] selection = new int[]{1, 2, 4, 6, 7, 8, 16};
             for (int j = 0; j < selection.length; j++) {
                 if (selection[j] == i) {
                     foodList.add(food);
@@ -699,15 +701,18 @@ public class Demo implements Serializable {
                 }
             }
         }
-        FoodSet foodSet = new FoodSet(new BigDecimal(93.4), new BigDecimal(26), new BigDecimal(240.7),
-                                      new BigDecimal(1568), new BigDecimal(4));
-        foodSet.setMaxWeight("芹菜茎", new BigDecimal(1000));
+        FoodSet foodSet = new FoodSet(new BigDecimal(46), new BigDecimal(13), new BigDecimal(77),
+                                      new BigDecimal(610), new BigDecimal(2));
+        foodSet.setMaxWeight("芹菜茎", new BigDecimal(500));
         foodSet.setMaxWeight("毛毛菜", new BigDecimal(1000));
-        foodSet.setMaxWeight("木耳菜", new BigDecimal(1000));
-        foodSet.setMaxWeight("西兰花", new BigDecimal(1000));
-        foodSet.setMaxWeight("糙米", new BigDecimal(400));
+        foodSet.setMaxWeight("木耳菜", new BigDecimal(500));
+        foodSet.setMaxWeight("西兰花", new BigDecimal(500));
+        foodSet.setMaxWeight("糙米", new BigDecimal(150));
+        foodSet.setMaxWeight("白米", new BigDecimal(150));
+        foodSet.setMaxWeight("辣椒酱", new BigDecimal(20));
+        foodSet.setMaxWeight("洋葱", new BigDecimal(500));
         FoodCalculator calculator = new FoodCalculator(foodList, foodSet, 30);
-        calculator.setMinCalorie(new BigDecimal(1450));
+        calculator.setMinCalorie(new BigDecimal(400));
         calculator.setMaxKickedCount(10000);
         long time = System.currentTimeMillis();
         calculator.searchResult();
@@ -716,7 +721,7 @@ public class Demo implements Serializable {
         resultList.sort(new Comparator<FoodCalculator.SearchNode>() {
             @Override
             public int compare(FoodCalculator.SearchNode o1, FoodCalculator.SearchNode o2) {
-                return o2.getFoodPlan().getProtein().compareTo(o1.getFoodPlan().getProtein());
+                return o2.getFoodPlan().getDietaryFiber().compareTo(o1.getFoodPlan().getDietaryFiber());
             }
         });
         JSONArray resultArray = new JSONArray();
@@ -724,6 +729,5 @@ public class Demo implements Serializable {
             resultArray.add(JSON.parseObject(node.toString()));
         }
         System.out.println(resultArray.toJSONString());
-        System.out.println("{\"appKey\":\"s\",\"bizContent\":\"s\",\"charset\":\"s\",\"format\":\"json\",\"serviceName\":\"cebbank.GD70\",\"signType\":\"RSA\",\"timestamp\":\"s\",\"version\":\"1.0.0\"}");
     }
 }
