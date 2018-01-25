@@ -296,15 +296,29 @@ public class FitProgramDemo {
                 int curDays = days + j;
                 XSSFRow row = sheet.createRow(curRowNum);
                 XSSFCell cellDayT = row.createCell(startCol);
-                modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
-                                                     .setValue(String.format("TEXT(WEEKDAY(%s),\"dddd\")", formatCell(curRowNum, startCol + 1))));
+                formula = String.format("TEXT(WEEKDAY(%s),\"dddd\")", formatCell(curRowNum, startCol + 1));
+                if (i < 4) {
+                    modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
+                                                         .setValue(formula));
+                } else {
+                    formula = String.format("IF($C$2=\"Normal\", %s, \"SKIP\")", formula);
+                    modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
+                                                         .setValue(formula));
+                }
 
                 XSSFCell cellDayV = row.createCell(startCol + 1);
                 if (i == 0 && j == 1) {
                     modifyCell(cellDayV, new CellOption().setStyle(dateVarStyle).setValue("2018/3/12"));
                 } else {
-                    modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
-                                                         .setValue(String.format("%s+%s", formatCell(startRow + 1, startCol + 1), 7 * i + j - 1)));
+                    formula = String.format("%s+%s", formatCell(startRow + 1, startCol + 1), 7 * i + j - 1);
+                    if (i < 4) {
+                        modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
+                                                             .setValue(formula));
+                    } else {
+                        formula = String.format("IF($C$2=\"Normal\", %s, \"SKIP\")", formula);
+                        modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
+                                                             .setValue(formula));
+                    }
                 }
 
                 XSSFCell cellTrain = row.createCell(startCol + 2);
