@@ -28,6 +28,7 @@ public class FitProgramDemo {
     private static final String                                        filePath2               = "/Users/tauros/Downloads/GZCLP+BOTB训练计划.xlsx";
     private static final int                                           BENCH_BASE              = 0;
     private static final int                                           SQUAT_BASE              = 4;
+    private static final Map<Training, String>                         TRAINING_MAX_POSITION   = new HashMap<>();
     private static final Training[]                                    HIGH_FREQUENCY_SCHEDULE = new Training[]{Training.卧推, Training.硬拉, null, Training.直立杠铃推举, Training.深蹲, null};
     private static final Training[][]                                  TRAINING_SEQUENCE       = new Training[][]{{Training.卧推, Training.硬拉, Training.直立杠铃推举, Training.深蹲},
                                                                                                                   {Training.深蹲, Training.卧推, Training.硬拉, Training.直立杠铃推举}};
@@ -100,7 +101,10 @@ public class FitProgramDemo {
         add(loop4);
         add(loop5);
     }};
+
     interface CycleCalculator {
+
+        Training getTraining(int loops, Training training);
 
         String getWeight(int loops, Training training);
 
@@ -108,9 +112,15 @@ public class FitProgramDemo {
 
         int getReps(int loops, Training training);
     }
+
     enum CycleCalculatorInstance implements CycleCalculator {
 
         FIRST_TRAIN(new CycleCalculator() {
+            @Override
+            public Training getTraining(int loops, Training training) {
+                return CYCLE.get(loops).get(training).getTraining();
+            }
+
             @Override
             public String getWeight(int loops, Training training) {
                 return CYCLE.get(loops).get(training).getWeight();
@@ -128,6 +138,11 @@ public class FitProgramDemo {
         }),
         SECOND_TRAIN(new CycleCalculator() {
             @Override
+            public Training getTraining(int loops, Training training) {
+                return CYCLE.get(loops).get(training).getTrainingSupport().getTrainingParam().getTraining();
+            }
+
+            @Override
             public String getWeight(int loops, Training training) {
                 return CYCLE.get(loops).get(training).getTrainingSupport().getTrainingParam().getWeight();
             }
@@ -141,13 +156,17 @@ public class FitProgramDemo {
             public int getReps(int loops, Training training) {
                 return CYCLE.get(loops).get(training).getTrainingSupport().getTrainingParam().getReps();
             }
-        })
-        ;
+        });
 
         private CycleCalculator calculator;
 
         CycleCalculatorInstance(CycleCalculator calculator) {
             this.calculator = calculator;
+        }
+
+        @Override
+        public Training getTraining(int loops, Training training) {
+            return this.calculator.getTraining(loops, training);
         }
 
         @Override
@@ -340,6 +359,11 @@ public class FitProgramDemo {
         }
         sheet1.addMergedRegion(new CellRangeAddress(0, 2, 4, 7));
         modifyCell(cellE1, new CellOption().setStyle(row1Style2).setValue("训练频率选择High Frequency时，训练安排不会对日程造成影响"));
+
+        TRAINING_MAX_POSITION.put(Training.深蹲, "$D$4");
+        TRAINING_MAX_POSITION.put(Training.卧推, "$D$5");
+        TRAINING_MAX_POSITION.put(Training.硬拉, "$D$6");
+        TRAINING_MAX_POSITION.put(Training.直立杠铃推举, "$D$7");
 
         buildSchedule(sheet1, 8, 2, row1Style1);
 
@@ -556,10 +580,10 @@ public class FitProgramDemo {
         int highLoop = calHighLoop(days);
         return String.format("IF(%s=\"REST\", \"REST\", IF(%s=\"SKIP\", \"SKIP\", IF(%s=\"%s\", %s, IF(%s=\"%s\", %s, IF(%s=\"%s\", %s, %s)))))",
                              trainingCell, trainingCell,
-                             mainTrainingCell, Training.卧推.name(), calBaseWeightFormula(String.format("$D$5*%s", calculator.getWeight(normalLoop, Training.卧推)), String.format("$D$5*%s", calculator.getWeight(highLoop, Training.卧推))),
-                             mainTrainingCell, Training.深蹲.name(), calBaseWeightFormula(String.format("$D$4*%s", calculator.getWeight(normalLoop, Training.深蹲)), String.format("$D$4*%s", calculator.getWeight(highLoop, Training.深蹲))),
-                             mainTrainingCell, Training.硬拉.name(), calBaseWeightFormula(String.format("$D$6*%s", calculator.getWeight(normalLoop, Training.硬拉)), String.format("$D$6*%s", calculator.getWeight(highLoop, Training.硬拉))),
-                             calBaseWeightFormula(String.format("$D$7*%s", calculator.getWeight(normalLoop, Training.直立杠铃推举)), String.format("$D$7*%s", calculator.getWeight(highLoop, Training.直立杠铃推举))));
+                             mainTrainingCell, Training.卧推.name(), calBaseWeightFormula(String.format("%s*%s", TRAINING_MAX_POSITION.get(calculator.getTraining(normalLoop, Training.卧推)), calculator.getWeight(normalLoop, Training.卧推)), String.format("%s*%s", TRAINING_MAX_POSITION.get(calculator.getTraining(highLoop, Training.卧推)), calculator.getWeight(highLoop, Training.卧推))),
+                             mainTrainingCell, Training.深蹲.name(), calBaseWeightFormula(String.format("%s*%s", TRAINING_MAX_POSITION.get(calculator.getTraining(normalLoop, Training.深蹲)), calculator.getWeight(normalLoop, Training.深蹲)), String.format("%s*%s", TRAINING_MAX_POSITION.get(calculator.getTraining(highLoop, Training.深蹲)), calculator.getWeight(highLoop, Training.深蹲))),
+                             mainTrainingCell, Training.硬拉.name(), calBaseWeightFormula(String.format("%s*%s", TRAINING_MAX_POSITION.get(calculator.getTraining(normalLoop, Training.硬拉)), calculator.getWeight(normalLoop, Training.硬拉)), String.format("%s*%s", TRAINING_MAX_POSITION.get(calculator.getTraining(highLoop, Training.硬拉)), calculator.getWeight(highLoop, Training.硬拉))),
+                             calBaseWeightFormula(String.format("%s*%s", TRAINING_MAX_POSITION.get(calculator.getTraining(normalLoop, Training.直立杠铃推举)), calculator.getWeight(normalLoop, Training.直立杠铃推举)), String.format("%s*%s", TRAINING_MAX_POSITION.get(calculator.getTraining(highLoop, Training.直立杠铃推举)), calculator.getWeight(highLoop, Training.直立杠铃推举))));
     }
 
     private static int calHighLoop(int days) {
