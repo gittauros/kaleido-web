@@ -486,7 +486,6 @@ public class FitProgramDemo {
 
                 XSSFCell cellDayV = row.createCell(startCol + 1);
                 if (i == 0 && j == 1) {
-//                    modifyCell(cellDayV, new CellOption().setStyle(dateVarStyle).setValue("2018/3/12"));
                     modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF($C$2=\"Normal\", %s+(%s - 1) * 35, %s+(%s - 1) * 28))", periodReference, startDateCell, startDateCell, periodCell, startDateCell, periodCell)));
                 } else {
                     formula = String.format("%s+%s", formatCell(startScheduleRow + 1, startCol + 1), 7 * i + j - 1);
