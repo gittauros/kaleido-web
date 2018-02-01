@@ -246,13 +246,25 @@ public class FitProgramDemo {
         XSSFCell cellC1 = row1.createCell(2);
         modifyCell(cellC1, new CellOption().setStyle(row1Style1).setValue("训练频率"));
         XSSFCell cellD1 = row1.createCell(3);
-        modifyCell(cellD1, new CellOption().setStyle(row1Style1).setValue("周期"));
+        modifyCell(cellD1, new CellOption().setStyle(row1Style1).setValue("增重(上/下肢)"));
+        XSSFCell cellE1 = row1.createCell(4);
+        modifyCell(cellE1, new CellOption().setStyle(row1Style1).setValue("周期"));
+        XSSFCell cellF1 = row1.createCell(5);
+        modifyCell(cellF1, new CellOption().setStyle(row1Style1).setValue("起始日期"));
+        XSSFCell cellG1 = row1.createCell(6);
+        modifyCell(cellG1, new CellOption().setStyle(row1Style1).setValue("重量回退周期"));
 
         XSSFRow row2 = sheet1.createRow(1);
         CellStyle row2Style1 = workbook.createCellStyle();
         row2Style1.cloneStyleFrom(row1Style1);
         row2Style1.setFont(boldFont);
         row2Style1.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+        CellStyle row2Style2 = workbook.createCellStyle();
+        row2Style2.cloneStyleFrom(row1Style1);
+        row2Style2.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        CellStyle row2Style3 = sheet1.getWorkbook().createCellStyle();
+        row2Style3.cloneStyleFrom(row2Style1);
+        row2Style3.setDataFormat(workbook.createDataFormat().getFormat("m/d/yy"));
 
         XSSFCell cellA2 = row2.createCell(0);
         modifyCell(cellA2, new CellOption().setStyle(row2Style1).setEnumClass(WeightUnit.class).setValue(WeightUnit.kg.name()));
@@ -261,7 +273,19 @@ public class FitProgramDemo {
         XSSFCell cellC2 = row2.createCell(2);
         modifyCell(cellC2, new CellOption().setStyle(row2Style1).setEnumClass(TrainingMode.class).setValue(TrainingMode.Normal.name()));
         XSSFCell cellD2 = row2.createCell(3);
-        modifyCell(cellD2, new CellOption().setStyle(row2Style1).setType(NUMERIC).setValue("1"));
+        modifyCell(cellD2, new CellOption().setStyle(row2Style2).setType(FORMULA).setValue("IF($A$2=\"kg\", \"2.5/5\", \"5/10\")"));
+        XSSFCell cellE2 = row2.createCell(4);
+        modifyCell(cellE2, new CellOption().setStyle(row2Style1).setType(NUMERIC).setValue("1"));
+        XSSFCell cellF2 = row2.createCell(5);
+        modifyCell(cellF2, new CellOption().setStyle(row2Style3).setValue("2018/3/12"));
+        XSSFCell cellG2 = row2.createCell(6);
+        modifyCell(cellG2, new CellOption().setStyle(row2Style1).setType(NUMERIC).setValue("0"));
+
+        String periodReference = "$E$2";
+        String periodCell = "E2";
+        String rollbackCell = "G2";
+        String startDateCell = "F2";
+        String periodCalculateFormula = String.format("IF(%s-1-%s<0, 0, %s-1-%s)", periodCell, rollbackCell, periodCell, rollbackCell);
 
         XSSFRow row3 = sheet1.createRow(2);
         CellStyle row3Style = workbook.createCellStyle();
@@ -290,9 +314,9 @@ public class FitProgramDemo {
         XSSFCell cellB4 = row4.createCell(1);
         modifyCell(cellB4, new CellOption().setStyle(row4Style2).setValue("BAR"));
         XSSFCell cellC4 = row4.createCell(2);
-        modifyCell(cellC4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue("IF($D$2<=1, IF($A$2=\"kg\", IF($B$4=\"BAR\", 20, IF($B$4 < 20, 20, B4)), IF($B$4=\"BAR\", 45, IF($B$4 < 45, 45, B4))), IF($A$2=\"kg\", IF($B$4=\"BAR\", 20+(D2-1)*5, B4+(D2-1)*5), IF($B$4=\"BAR\", 45+(D2-1)*10, B4+(D2-1)*10)))"));
+        modifyCell(cellC4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$4=\"BAR\", 20, IF($B$4 < 20, 20, B4)), IF($B$4=\"BAR\", 45, IF($B$4 < 45, 45, B4))), IF($A$2=\"kg\", IF($B$4=\"BAR\", 20+%s*5, B4+%s*5), IF($B$4=\"BAR\", 45+%s*10, B4+%s*10)))", periodReference, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula)));
         XSSFCell cellD4 = row4.createCell(3);
-        modifyCell(cellD4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(MROUND(C4*0.9, 2.5) < 20, 20, MROUND(C4*0.9, 2.5)), IF(MROUND(C4*0.9, 5) < 45, 45, MROUND(C4*0.9, 5)))"));
+        modifyCell(cellD4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C4*0.9 < 20, 20, C4*0.9), IF(C4*0.9 < 45, 45, C4*0.9))"));
 
         XSSFRow row5 = sheet1.createRow(4);
         CellStyle row5Style1 = workbook.createCellStyle();
@@ -308,9 +332,9 @@ public class FitProgramDemo {
         XSSFCell cellB5 = row5.createCell(1);
         modifyCell(cellB5, new CellOption().setStyle(row5Style2).setValue("BAR"));
         XSSFCell cellC5 = row5.createCell(2);
-        modifyCell(cellC5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue("IF($D$2<=1, IF($A$2=\"kg\", IF($B$5=\"BAR\", 20, IF($B$5 < 20, 20, B5)), IF($B$5=\"BAR\", 45, IF($B$5 < 45, 45, B5))), IF($A$2=\"kg\", IF($B$5=\"BAR\", 20+(D2-1)*2.5, B5+(D2-1)*2.5), IF($B$5=\"BAR\", 45+(D2-1)*5, B5+(D2-1)*5)))"));
+        modifyCell(cellC5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$5=\"BAR\", 20, IF($B$5 < 20, 20, B5)), IF($B$5=\"BAR\", 45, IF($B$5 < 45, 45, B5))), IF($A$2=\"kg\", IF($B$5=\"BAR\", 20+%s*2.5, B5+%s*2.5), IF($B$5=\"BAR\", 45+%s*5, B5+%s*5)))", periodReference, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula)));
         XSSFCell cellD5 = row5.createCell(3);
-        modifyCell(cellD5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(MROUND(C5*0.9, 2.5) < 20, 20, MROUND(C5*0.9, 2.5)), IF(MROUND(C5*0.9, 5) < 45, 45, MROUND(C5*0.9, 5)))"));
+        modifyCell(cellD5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C5*0.9 < 20, 20, C5*0.9), IF(C5*0.9 < 45, 45, C5*0.9))"));
 
         XSSFRow row6 = sheet1.createRow(5);
         CellStyle row6Style1 = workbook.createCellStyle();
@@ -326,9 +350,9 @@ public class FitProgramDemo {
         XSSFCell cellB6 = row6.createCell(1);
         modifyCell(cellB6, new CellOption().setStyle(row6Style2).setValue("BAR"));
         XSSFCell cellC6 = row6.createCell(2);
-        modifyCell(cellC6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue("IF($D$2<=1, IF($A$2=\"kg\", IF($B$6=\"BAR\", 20, IF($B$6 < 20, 20, B6)), IF($B$6=\"BAR\", 45, IF($B$6 < 45, 45, B6))), IF($A$2=\"kg\", IF($B$6=\"BAR\", 20+(D2-1)*5, B6+(D2-1)*5), IF($B$6=\"BAR\", 45+(D2-1)*10, B6+(D2-1)*10)))"));
+        modifyCell(cellC6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$6=\"BAR\", 20, IF($B$6 < 20, 20, B6)), IF($B$6=\"BAR\", 45, IF($B$6 < 45, 45, B6))), IF($A$2=\"kg\", IF($B$6=\"BAR\", 20+%s*5, B6+%s*5), IF($B$6=\"BAR\", 45+%s*10, B6+%s*10)))", periodReference, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula)));
         XSSFCell cellD6 = row6.createCell(3);
-        modifyCell(cellD6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(MROUND(C6*0.9, 2.5) < 20, 20, MROUND(C6*0.9, 2.5)), IF(MROUND(C6*0.9, 5) < 45, 45, MROUND(C6*0.9, 5)))"));
+        modifyCell(cellD6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C6*0.9 < 20, 20, C6*0.9), IF(C6*0.9 < 45, 45, C6*0.9))"));
 
         XSSFRow row7 = sheet1.createRow(6);
         CellStyle row7Style1 = workbook.createCellStyle();
@@ -344,28 +368,29 @@ public class FitProgramDemo {
         XSSFCell cellB7 = row7.createCell(1);
         modifyCell(cellB7, new CellOption().setStyle(row7Style2).setValue("BAR"));
         XSSFCell cellC7 = row7.createCell(2);
-        modifyCell(cellC7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue("IF($D$2<=1, IF($A$2=\"kg\", IF($B$7=\"BAR\", 20, IF($B$7 < 20, 20, B7)), IF($B$7=\"BAR\", 45, IF($B$7 < 45, 45, B7))), IF($A$2=\"kg\", IF($B$7=\"BAR\", 20+(D2-1)*2.5, B7+(D2-1)*2.5), IF($B$7=\"BAR\", 45+(D2-1)*5, B7+(D2-1)*5)))"));
+        modifyCell(cellC7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$7=\"BAR\", 20, IF($B$7 < 20, 20, B7)), IF($B$7=\"BAR\", 45, IF($B$7 < 45, 45, B7))), IF($A$2=\"kg\", IF($B$7=\"BAR\", 20+%s*2.5, B7+%s*2.5), IF($B$7=\"BAR\", 45+%s*5, B7+%s*5)))", periodReference, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula)));
         XSSFCell cellD7 = row7.createCell(3);
-        modifyCell(cellD7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(MROUND(C7*0.9, 2.5) < 20, 20, MROUND(C7*0.9, 2.5)), IF(MROUND(C7*0.9, 5) < 45, 45, MROUND(C7*0.9, 5)))"));
+        modifyCell(cellD7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C7*0.9 < 20, 20, C7*0.9), IF(C7*0.9 < 45, 45, C7*0.9))"));
 
-        XSSFCell cellE1 = row1.createCell(4);
-        CellStyle row1Style2 = workbook.createCellStyle();
-        row1Style2.cloneStyleFrom(row1Style1);
-        row1Style2.setFillForegroundColor(IndexedColors.WHITE.getIndex());
-        for (int i = 0; i <= 2; i++) {
-            for (int j = 4; j <= 7; j++) {
-                sheet1.getRow(i).createCell(j).setCellStyle(row1Style2);
+        XSSFCell cellE3 = row3.createCell(4);
+        CellStyle row3Style2 = workbook.createCellStyle();
+        row3Style2.cloneStyleFrom(row1Style1);
+        row3Style2.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        row3Style2.setWrapText(true);
+        for (int i = 2; i <= 6; i++) {
+            for (int j = 4; j <= 6; j++) {
+                sheet1.getRow(i).createCell(j).setCellStyle(row3Style2);
             }
         }
-        sheet1.addMergedRegion(new CellRangeAddress(0, 2, 4, 7));
-        modifyCell(cellE1, new CellOption().setStyle(row1Style2).setValue("训练频率选择High Frequency时，训练安排不会对日程造成影响"));
+        sheet1.addMergedRegion(new CellRangeAddress(2, 6, 4, 6));
+        modifyCell(cellE3, new CellOption().setStyle(row3Style2).setValue("训练频率选择High Frequency时\n训练安排不会对日程造成影响"));
 
         TRAINING_MAX_POSITION.put(Training.深蹲, "$D$4");
         TRAINING_MAX_POSITION.put(Training.卧推, "$D$5");
         TRAINING_MAX_POSITION.put(Training.硬拉, "$D$6");
         TRAINING_MAX_POSITION.put(Training.直立杠铃推举, "$D$7");
 
-        buildSchedule(sheet1, 8, 2, row1Style1);
+        buildSchedule(sheet1, 8, 2, startDateCell, periodCell, periodReference, row1Style1);
 
         for (Map.Entry<String, Map<String, Map<String, Object>>> sheetValidation : VALIDATIONS.entrySet()) {
             XSSFSheet sheet = workbook.getSheet(sheetValidation.getKey());
@@ -380,7 +405,7 @@ public class FitProgramDemo {
         writeFile(workbook, filePath);
     }
 
-    private static void buildSchedule(XSSFSheet sheet, final int startRow, final int startCol, XSSFCellStyle style) {
+    private static void buildSchedule(XSSFSheet sheet, final int startRow, final int startCol, String startDateCell, String periodCell, String periodReference, XSSFCellStyle style) {
         XSSFFont boldFont = sheet.getWorkbook().createFont();
         boldFont.setBold(true);
         XSSFCellStyle baseStyle = sheet.getWorkbook().createCellStyle();
@@ -461,7 +486,8 @@ public class FitProgramDemo {
 
                 XSSFCell cellDayV = row.createCell(startCol + 1);
                 if (i == 0 && j == 1) {
-                    modifyCell(cellDayV, new CellOption().setStyle(dateVarStyle).setValue("2018/3/12"));
+//                    modifyCell(cellDayV, new CellOption().setStyle(dateVarStyle).setValue("2018/3/12"));
+                    modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF($C$2=\"Normal\", %s+(%s - 1) * 35, %s+(%s - 1) * 28))", periodReference, startDateCell, startDateCell, periodCell, startDateCell, periodCell)));
                 } else {
                     formula = String.format("%s+%s", formatCell(startScheduleRow + 1, startCol + 1), 7 * i + j - 1);
                     if (i < 4) {
