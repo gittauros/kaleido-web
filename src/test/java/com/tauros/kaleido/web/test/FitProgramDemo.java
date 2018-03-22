@@ -41,20 +41,32 @@ public class FitProgramDemo {
             public TrainingParam calculate(TrainingParam mainParam) {
                 switch (mainParam.getTraining()) {
                     case 直立杠铃推举:
-                        return new TrainingParam(Training.卧推, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 8), calWeight(mainParam.getWeight()));
+                        return new TrainingParam(Training.卧推, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 10), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 深蹲:
-                        return new TrainingParam(Training.硬拉, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 8), calWeight(mainParam.getWeight()));
+                        return new TrainingParam(Training.硬拉, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 10), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 卧推:
-                        return new TrainingParam(Training.直立杠铃推举, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 8), calWeight(mainParam.getWeight()));
+                        return new TrainingParam(Training.直立杠铃推举, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 10), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 硬拉:
-                        return new TrainingParam(Training.深蹲, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 8), calWeight(mainParam.getWeight()));
+                        return new TrainingParam(Training.深蹲, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 10), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                 }
                 return null;
             }
 
-            private String calWeight(String mainWeight) {
+            private String calWeight(String mainWeight, int period) {
                 BigDecimal mainWeightNum = new BigDecimal(mainWeight);
                 if (mainWeightNum.compareTo(new BigDecimal("0.65")) > 0) {
+                    switch (period) {
+                        case 1:
+                            return "0.64";
+                        case 2:
+                            return "0.66";
+                        case 3:
+                            return "0.68";
+                        case 4:
+                            return "0.70";
+                        case 5:
+                            return "0.60";
+                    }
                     return "0.65";
                 }
                 return "0.60";
@@ -63,7 +75,7 @@ public class FitProgramDemo {
             private int calSets(int mainSets) {
                 final int MAX_SETS = 10;
                 int sets = MAX_SETS - mainSets;
-                return sets < 0 ? 0 : sets > 5 ? 5 : sets;
+                return sets < 0 ? 0 : sets > 4 ? 4 : sets;
             }
 
             private int calReps(int mainSets, int reps) {
@@ -71,30 +83,30 @@ public class FitProgramDemo {
             }
         };
         Map<Training, TrainingParam> loop1 = new HashMap<>();
-        loop1.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 5, 7, "0.75", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop1.put(Training.深蹲, new TrainingParam(Training.深蹲, 10, 3, "0.85", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop1.put(Training.卧推, new TrainingParam(Training.卧推, 7, 5, "0.80", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop1.put(Training.硬拉, new TrainingParam(Training.硬拉, 4, 9, "0.70", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop1.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 5, 7, "0.75", 1, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop1.put(Training.深蹲, new TrainingParam(Training.深蹲, 10, 3, "0.85", 1, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop1.put(Training.卧推, new TrainingParam(Training.卧推, 7, 5, "0.80", 1, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop1.put(Training.硬拉, new TrainingParam(Training.硬拉, 4, 9, "0.70", 1, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
         Map<Training, TrainingParam> loop2 = new HashMap<>();
-        loop2.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 4, 9, "0.70", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop2.put(Training.深蹲, new TrainingParam(Training.深蹲, 7, 5, "0.80", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop2.put(Training.卧推, new TrainingParam(Training.卧推, 10, 3, "0.85", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop2.put(Training.硬拉, new TrainingParam(Training.硬拉, 5, 7, "0.75", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop2.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 4, 9, "0.70", 2, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop2.put(Training.深蹲, new TrainingParam(Training.深蹲, 7, 5, "0.80", 2, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop2.put(Training.卧推, new TrainingParam(Training.卧推, 10, 3, "0.85", 2, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop2.put(Training.硬拉, new TrainingParam(Training.硬拉, 5, 7, "0.75", 2, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
         Map<Training, TrainingParam> loop3 = new HashMap<>();
-        loop3.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 7, 5, "0.80", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop3.put(Training.深蹲, new TrainingParam(Training.深蹲, 4, 9, "0.70", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop3.put(Training.卧推, new TrainingParam(Training.卧推, 5, 7, "0.75", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop3.put(Training.硬拉, new TrainingParam(Training.硬拉, 10, 3, "0.85", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop3.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 7, 5, "0.80", 3, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop3.put(Training.深蹲, new TrainingParam(Training.深蹲, 4, 9, "0.70", 3, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop3.put(Training.卧推, new TrainingParam(Training.卧推, 5, 7, "0.75", 3, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop3.put(Training.硬拉, new TrainingParam(Training.硬拉, 10, 3, "0.85", 3, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
         Map<Training, TrainingParam> loop4 = new HashMap<>();
-        loop4.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 10, 3, "0.85", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop4.put(Training.深蹲, new TrainingParam(Training.深蹲, 5, 7, "0.75", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop4.put(Training.卧推, new TrainingParam(Training.卧推, 4, 9, "0.70", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop4.put(Training.硬拉, new TrainingParam(Training.硬拉, 7, 5, "0.80", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop4.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 10, 3, "0.85", 4, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop4.put(Training.深蹲, new TrainingParam(Training.深蹲, 5, 7, "0.75", 4, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop4.put(Training.卧推, new TrainingParam(Training.卧推, 4, 9, "0.70", 4, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop4.put(Training.硬拉, new TrainingParam(Training.硬拉, 7, 5, "0.80", 4, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
         Map<Training, TrainingParam> loop5 = new HashMap<>();
-        loop5.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 4, 8, "0.60", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop5.put(Training.深蹲, new TrainingParam(Training.深蹲, 4, 8, "0.60", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop5.put(Training.卧推, new TrainingParam(Training.卧推, 4, 8, "0.60", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
-        loop5.put(Training.硬拉, new TrainingParam(Training.硬拉, 4, 8, "0.60", new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop5.put(Training.直立杠铃推举, new TrainingParam(Training.直立杠铃推举, 4, 8, "0.60", 5, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop5.put(Training.深蹲, new TrainingParam(Training.深蹲, 4, 8, "0.60", 5, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop5.put(Training.卧推, new TrainingParam(Training.卧推, 4, 8, "0.60", 5, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
+        loop5.put(Training.硬拉, new TrainingParam(Training.硬拉, 4, 8, "0.60", 5, new TrainingSupport(SECOND_SUPPORT_CALCULATOR)));
         add(loop1);
         add(loop2);
         add(loop3);
@@ -252,7 +264,7 @@ public class FitProgramDemo {
         XSSFCell cellF1 = row1.createCell(5);
         modifyCell(cellF1, new CellOption().setStyle(row1Style1).setValue("起始日期"));
         XSSFCell cellG1 = row1.createCell(6);
-        modifyCell(cellG1, new CellOption().setStyle(row1Style1).setValue("重量回退周期"));
+        modifyCell(cellG1, new CellOption().setStyle(row1Style1).setValue("deload跳过次数"));
 
         XSSFRow row2 = sheet1.createRow(1);
         CellStyle row2Style1 = workbook.createCellStyle();
@@ -283,9 +295,9 @@ public class FitProgramDemo {
 
         String periodReference = "$E$2";
         String periodCell = "E2";
-        String rollbackCell = "G2";
         String startDateCell = "F2";
-        String periodCalculateFormula = String.format("IF(%s-1-%s<0, 0, %s-1-%s)", periodCell, rollbackCell, periodCell, rollbackCell);
+        String deloadSkipCell = "G2";
+        String deloadSkipReference = "$G$2";
 
         XSSFRow row3 = sheet1.createRow(2);
         CellStyle row3Style = workbook.createCellStyle();
@@ -299,6 +311,17 @@ public class FitProgramDemo {
         modifyCell(cellC3, new CellOption().setStyle(row3Style).setValue("本周期1RM"));
         XSSFCell cellD3 = row3.createCell(3);
         modifyCell(cellD3, new CellOption().setStyle(row3Style).setValue("本周期训练MAX"));
+        XSSFCell cellE3 = row3.createCell(4);
+        modifyCell(cellE3, new CellOption().setStyle(row3Style).setValue("增重停止周期"));
+
+        String weightRollbackCell1 = "E4";
+        String weightRollbackCell2 = "E5";
+        String weightRollbackCell3 = "E6";
+        String weightRollbackCell4 = "E7";
+        String periodCalculateFormula1 = String.format("IF(%s-1-%s<0, 0, %s-1-%s)", periodCell, weightRollbackCell1, periodCell, weightRollbackCell1);
+        String periodCalculateFormula2 = String.format("IF(%s-1-%s<0, 0, %s-1-%s)", periodCell, weightRollbackCell2, periodCell, weightRollbackCell2);
+        String periodCalculateFormula3 = String.format("IF(%s-1-%s<0, 0, %s-1-%s)", periodCell, weightRollbackCell3, periodCell, weightRollbackCell3);
+        String periodCalculateFormula4 = String.format("IF(%s-1-%s<0, 0, %s-1-%s)", periodCell, weightRollbackCell4, periodCell, weightRollbackCell4);
 
         XSSFRow row4 = sheet1.createRow(3);
         CellStyle row4Style1 = workbook.createCellStyle();
@@ -314,9 +337,11 @@ public class FitProgramDemo {
         XSSFCell cellB4 = row4.createCell(1);
         modifyCell(cellB4, new CellOption().setStyle(row4Style2).setValue("BAR"));
         XSSFCell cellC4 = row4.createCell(2);
-        modifyCell(cellC4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$4=\"BAR\", 20, IF($B$4 < 20, 20, B4)), IF($B$4=\"BAR\", 45, IF($B$4 < 45, 45, B4))), IF($A$2=\"kg\", IF($B$4=\"BAR\", 20+%s*5, B4+%s*5), IF($B$4=\"BAR\", 45+%s*10, B4+%s*10)))", periodReference, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula)));
+        modifyCell(cellC4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$4=\"BAR\", 20, IF($B$4 < 20, 20, B4)), IF($B$4=\"BAR\", 45, IF($B$4 < 45, 45, B4))), IF($A$2=\"kg\", IF($B$4=\"BAR\", 20+%s*5, B4+%s*5), IF($B$4=\"BAR\", 45+%s*10, B4+%s*10)))", periodReference, periodCalculateFormula1, periodCalculateFormula1, periodCalculateFormula1, periodCalculateFormula1)));
         XSSFCell cellD4 = row4.createCell(3);
         modifyCell(cellD4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C4*0.9 < 20, 20, C4*0.9), IF(C4*0.9 < 45, 45, C4*0.9))"));
+        XSSFCell cellE4 = row4.createCell(4);
+        modifyCell(cellE4, new CellOption().setStyle(row4Style2).setType(NUMERIC).setValue("0"));
 
         XSSFRow row5 = sheet1.createRow(4);
         CellStyle row5Style1 = workbook.createCellStyle();
@@ -332,9 +357,11 @@ public class FitProgramDemo {
         XSSFCell cellB5 = row5.createCell(1);
         modifyCell(cellB5, new CellOption().setStyle(row5Style2).setValue("BAR"));
         XSSFCell cellC5 = row5.createCell(2);
-        modifyCell(cellC5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$5=\"BAR\", 20, IF($B$5 < 20, 20, B5)), IF($B$5=\"BAR\", 45, IF($B$5 < 45, 45, B5))), IF($A$2=\"kg\", IF($B$5=\"BAR\", 20+%s*2.5, B5+%s*2.5), IF($B$5=\"BAR\", 45+%s*5, B5+%s*5)))", periodReference, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula)));
+        modifyCell(cellC5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$5=\"BAR\", 20, IF($B$5 < 20, 20, B5)), IF($B$5=\"BAR\", 45, IF($B$5 < 45, 45, B5))), IF($A$2=\"kg\", IF($B$5=\"BAR\", 20+%s*2.5, B5+%s*2.5), IF($B$5=\"BAR\", 45+%s*5, B5+%s*5)))", periodReference, periodCalculateFormula2, periodCalculateFormula2, periodCalculateFormula2, periodCalculateFormula2)));
         XSSFCell cellD5 = row5.createCell(3);
         modifyCell(cellD5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C5*0.9 < 20, 20, C5*0.9), IF(C5*0.9 < 45, 45, C5*0.9))"));
+        XSSFCell cellE5 = row5.createCell(4);
+        modifyCell(cellE5, new CellOption().setStyle(row5Style2).setType(NUMERIC).setValue("0"));
 
         XSSFRow row6 = sheet1.createRow(5);
         CellStyle row6Style1 = workbook.createCellStyle();
@@ -350,9 +377,11 @@ public class FitProgramDemo {
         XSSFCell cellB6 = row6.createCell(1);
         modifyCell(cellB6, new CellOption().setStyle(row6Style2).setValue("BAR"));
         XSSFCell cellC6 = row6.createCell(2);
-        modifyCell(cellC6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$6=\"BAR\", 20, IF($B$6 < 20, 20, B6)), IF($B$6=\"BAR\", 45, IF($B$6 < 45, 45, B6))), IF($A$2=\"kg\", IF($B$6=\"BAR\", 20+%s*5, B6+%s*5), IF($B$6=\"BAR\", 45+%s*10, B6+%s*10)))", periodReference, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula)));
+        modifyCell(cellC6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$6=\"BAR\", 20, IF($B$6 < 20, 20, B6)), IF($B$6=\"BAR\", 45, IF($B$6 < 45, 45, B6))), IF($A$2=\"kg\", IF($B$6=\"BAR\", 20+%s*5, B6+%s*5), IF($B$6=\"BAR\", 45+%s*10, B6+%s*10)))", periodReference, periodCalculateFormula3, periodCalculateFormula3, periodCalculateFormula3, periodCalculateFormula3)));
         XSSFCell cellD6 = row6.createCell(3);
         modifyCell(cellD6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C6*0.9 < 20, 20, C6*0.9), IF(C6*0.9 < 45, 45, C6*0.9))"));
+        XSSFCell cellE6 = row6.createCell(4);
+        modifyCell(cellE6, new CellOption().setStyle(row6Style2).setType(NUMERIC).setValue("0"));
 
         XSSFRow row7 = sheet1.createRow(6);
         CellStyle row7Style1 = workbook.createCellStyle();
@@ -368,29 +397,31 @@ public class FitProgramDemo {
         XSSFCell cellB7 = row7.createCell(1);
         modifyCell(cellB7, new CellOption().setStyle(row7Style2).setValue("BAR"));
         XSSFCell cellC7 = row7.createCell(2);
-        modifyCell(cellC7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$7=\"BAR\", 20, IF($B$7 < 20, 20, B7)), IF($B$7=\"BAR\", 45, IF($B$7 < 45, 45, B7))), IF($A$2=\"kg\", IF($B$7=\"BAR\", 20+%s*2.5, B7+%s*2.5), IF($B$7=\"BAR\", 45+%s*5, B7+%s*5)))", periodReference, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula, periodCalculateFormula)));
+        modifyCell(cellC7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$7=\"BAR\", 20, IF($B$7 < 20, 20, B7)), IF($B$7=\"BAR\", 45, IF($B$7 < 45, 45, B7))), IF($A$2=\"kg\", IF($B$7=\"BAR\", 20+%s*2.5, B7+%s*2.5), IF($B$7=\"BAR\", 45+%s*5, B7+%s*5)))", periodReference, periodCalculateFormula4, periodCalculateFormula4, periodCalculateFormula4, periodCalculateFormula4)));
         XSSFCell cellD7 = row7.createCell(3);
         modifyCell(cellD7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C7*0.9 < 20, 20, C7*0.9), IF(C7*0.9 < 45, 45, C7*0.9))"));
+        XSSFCell cellE7 = row7.createCell(4);
+        modifyCell(cellE7, new CellOption().setStyle(row7Style2).setType(NUMERIC).setValue("0"));
 
-        XSSFCell cellE3 = row3.createCell(4);
+        XSSFCell cellF3 = row3.createCell(5);
         CellStyle row3Style2 = workbook.createCellStyle();
         row3Style2.cloneStyleFrom(row1Style1);
         row3Style2.setFillForegroundColor(IndexedColors.WHITE.getIndex());
         row3Style2.setWrapText(true);
         for (int i = 2; i <= 6; i++) {
-            for (int j = 4; j <= 6; j++) {
+            for (int j = 5; j <= 6; j++) {
                 sheet1.getRow(i).createCell(j).setCellStyle(row3Style2);
             }
         }
-        sheet1.addMergedRegion(new CellRangeAddress(2, 6, 4, 6));
-        modifyCell(cellE3, new CellOption().setStyle(row3Style2).setValue("训练频率选择High Frequency时\n训练安排不会对日程造成影响"));
+        sheet1.addMergedRegion(new CellRangeAddress(2, 6, 5, 6));
+        modifyCell(cellF3, new CellOption().setStyle(row3Style2).setValue("训练频率选择High Frequency时\n训练安排不会对日程造成影响"));
 
         TRAINING_MAX_POSITION.put(Training.深蹲, "$D$4");
         TRAINING_MAX_POSITION.put(Training.卧推, "$D$5");
         TRAINING_MAX_POSITION.put(Training.硬拉, "$D$6");
         TRAINING_MAX_POSITION.put(Training.直立杠铃推举, "$D$7");
 
-        buildSchedule(sheet1, 8, 2, startDateCell, periodCell, periodReference, row1Style1);
+        buildSchedule(sheet1, 8, 2, startDateCell, periodCell, deloadSkipCell, periodReference, deloadSkipReference, row1Style1);
 
         for (Map.Entry<String, Map<String, Map<String, Object>>> sheetValidation : VALIDATIONS.entrySet()) {
             XSSFSheet sheet = workbook.getSheet(sheetValidation.getKey());
@@ -405,7 +436,7 @@ public class FitProgramDemo {
         writeFile(workbook, filePath);
     }
 
-    private static void buildSchedule(XSSFSheet sheet, final int startRow, final int startCol, String startDateCell, String periodCell, String periodReference, XSSFCellStyle style) {
+    private static void buildSchedule(XSSFSheet sheet, final int startRow, final int startCol, String startDateCell, String periodCell, String deloadSkipCell, String periodReference, String deloadSkipReference, XSSFCellStyle style) {
         XSSFFont boldFont = sheet.getWorkbook().createFont();
         boldFont.setBold(true);
         XSSFCellStyle baseStyle = sheet.getWorkbook().createCellStyle();
@@ -486,7 +517,8 @@ public class FitProgramDemo {
 
                 XSSFCell cellDayV = row.createCell(startCol + 1);
                 if (i == 0 && j == 1) {
-                    modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF($C$2=\"Normal\", %s+(%s - 1) * 35, %s+(%s - 1) * 28))", periodReference, startDateCell, startDateCell, periodCell, startDateCell, periodCell)));
+//                    modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF($C$2=\"Normal\", %s+(%s - 1) * 35, %s+(%s - 1) * 28))", periodReference, startDateCell, startDateCell, periodCell, startDateCell, periodCell)));
+                    modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF($C$2=\"Normal\", %s+IF(%s-%s<=0, (%s - 1) * 28, %s * 28 + (%s - %s - 1) * 35), %s+(%s - 1) * 28))", periodReference, startDateCell, startDateCell, periodReference, deloadSkipReference, periodCell, deloadSkipCell, periodCell, deloadSkipCell, startDateCell, periodCell)));
                 } else {
                     formula = String.format("%s+%s", formatCell(startScheduleRow + 1, startCol + 1), 7 * i + j - 1);
                     if (i < 4) {
@@ -742,24 +774,27 @@ public class FitProgramDemo {
     }
 
     static class TrainingParam {
+        private final int             period;
         private final Training        training;
         private final int             sets;
         private final int             reps;
         private final String          weight;
         private       TrainingSupport trainingSupport;
 
-        public TrainingParam(Training training, int sets, int reps, String weight) {
+        public TrainingParam(Training training, int sets, int reps, String weight, int period) {
             this.training = training;
             this.sets = sets;
             this.reps = reps;
             this.weight = weight;
+            this.period = period;
         }
 
-        public TrainingParam(Training training, int sets, int reps, String weight, TrainingSupport trainingSupport) {
+        public TrainingParam(Training training, int sets, int reps, String weight, int period, TrainingSupport trainingSupport) {
             this.training = training;
             this.sets = sets;
             this.reps = reps;
             this.weight = weight;
+            this.period = period;
             this.trainingSupport = trainingSupport;
             this.trainingSupport.setMainParam(this);
         }
@@ -774,6 +809,10 @@ public class FitProgramDemo {
 
         public String getWeight() {
             return weight;
+        }
+
+        public int getPeriod() {
+            return period;
         }
 
         public Training getTraining() {
