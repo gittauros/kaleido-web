@@ -510,14 +510,13 @@ public class FitProgramDemo {
                     modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
                                                          .setValue(formula));
                 } else {
-                    formula = String.format("IF($C$2=\"Normal\", %s, \"SKIP\")", formula);
+                    formula = String.format("IF($C$2=\"Normal\", IF(%s-%s<=0, \"SKIP\", %s), \"SKIP\")", periodReference, deloadSkipReference, formula);
                     modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
                                                          .setValue(formula));
                 }
 
                 XSSFCell cellDayV = row.createCell(startCol + 1);
                 if (i == 0 && j == 1) {
-//                    modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF($C$2=\"Normal\", %s+(%s - 1) * 35, %s+(%s - 1) * 28))", periodReference, startDateCell, startDateCell, periodCell, startDateCell, periodCell)));
                     modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF($C$2=\"Normal\", %s+IF(%s-%s<=0, (%s - 1) * 28, %s * 28 + (%s - %s - 1) * 35), %s+(%s - 1) * 28))", periodReference, startDateCell, startDateCell, periodReference, deloadSkipReference, periodCell, deloadSkipCell, periodCell, deloadSkipCell, startDateCell, periodCell)));
                 } else {
                     formula = String.format("%s+%s", formatCell(startScheduleRow + 1, startCol + 1), 7 * i + j - 1);
@@ -525,7 +524,7 @@ public class FitProgramDemo {
                         modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
                                                              .setValue(formula));
                     } else {
-                        formula = String.format("IF($C$2=\"Normal\", %s, \"SKIP\")", formula);
+                        formula = String.format("IF($C$2=\"Normal\", IF(%s-%s<=0, \"SKIP\", %s), \"SKIP\")", periodReference, deloadSkipReference, formula);
                         modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
                                                              .setValue(formula));
                     }
@@ -565,7 +564,7 @@ public class FitProgramDemo {
                     }
                     modifyCell(cellTrain1, new CellOption().setStyle(textStyle).setType(FORMULA).setValue(formula));
                 } else {
-                    formula = String.format("IF($C$2=\"Normal\", %s, \"SKIP\")", formatCell(startScheduleRow + j, startCol + 2));
+                    formula = String.format("IF($C$2=\"Normal\", IF(%s-%s<=0, \"SKIP\", %s), \"SKIP\")", periodReference, deloadSkipReference, formatCell(startScheduleRow + j, startCol + 2));
                     modifyCell(cellTrain1, new CellOption().setStyle(textStyle).setType(FORMULA).setValue(formula));
                 }
 
