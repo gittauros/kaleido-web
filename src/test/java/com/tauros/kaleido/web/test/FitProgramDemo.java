@@ -41,13 +41,13 @@ public class FitProgramDemo {
             public TrainingParam calculate(TrainingParam mainParam) {
                 switch (mainParam.getTraining()) {
                     case 直立杠铃推举:
-                        return new TrainingParam(Training.卧推, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 10), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
+                        return new TrainingParam(Training.卧推, calSets(mainParam.getSets()), calReps(mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 深蹲:
-                        return new TrainingParam(Training.硬拉, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 10), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
+                        return new TrainingParam(Training.硬拉, calSets(mainParam.getSets()), calReps(mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 卧推:
-                        return new TrainingParam(Training.直立杠铃推举, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 10), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
+                        return new TrainingParam(Training.直立杠铃推举, calSets(mainParam.getSets()), calReps(mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 硬拉:
-                        return new TrainingParam(Training.深蹲, calSets(mainParam.getSets()), calReps(mainParam.getSets(), 10), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
+                        return new TrainingParam(Training.深蹲, calSets(mainParam.getSets()), calReps(mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                 }
                 return null;
             }
@@ -57,13 +57,13 @@ public class FitProgramDemo {
                 if (mainWeightNum.compareTo(new BigDecimal("0.65")) > 0) {
                     switch (period) {
                         case 1:
-                            return "0.64";
+                            return "0.65";
                         case 2:
                             return "0.66";
                         case 3:
-                            return "0.68";
+                            return "0.67";
                         case 4:
-                            return "0.70";
+                            return "0.68";
                         case 5:
                             return "0.60";
                     }
@@ -78,8 +78,23 @@ public class FitProgramDemo {
                 return sets < 0 ? 0 : sets > 4 ? 4 : sets;
             }
 
-            private int calReps(int mainSets, int reps) {
-                return calSets(mainSets) <= 0 ? 0 : reps;
+            private int calReps(int mainSets, int period) {
+                if (calSets(mainSets) <= 0) {
+                    return 0;
+                }
+                switch (period) {
+                    case 1:
+                        return 10;
+                    case 2:
+                        return 10;
+                    case 3:
+                        return 8;
+                    case 4:
+                        return 8;
+                    case 5:
+                        return 7;
+                }
+                return 10;
             }
         };
         Map<Training, TrainingParam> loop1 = new HashMap<>();
@@ -289,7 +304,7 @@ public class FitProgramDemo {
         XSSFCell cellE2 = row2.createCell(4);
         modifyCell(cellE2, new CellOption().setStyle(row2Style1).setType(NUMERIC).setValue("1"));
         XSSFCell cellF2 = row2.createCell(5);
-        modifyCell(cellF2, new CellOption().setStyle(row2Style3).setValue("2018/3/12"));
+        modifyCell(cellF2, new CellOption().setStyle(row2Style3).setValue("2018/2/27"));
         XSSFCell cellG2 = row2.createCell(6);
         modifyCell(cellG2, new CellOption().setStyle(row2Style1).setType(NUMERIC).setValue("0"));
 
