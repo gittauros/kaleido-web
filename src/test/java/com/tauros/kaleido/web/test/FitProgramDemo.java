@@ -75,14 +75,14 @@ public class FitProgramDemo {
             private int calSets(Training mainTraining, int mainSets) {
                 boolean lowerBody = mainTraining == Training.深蹲 || mainTraining == Training.硬拉;
                 switch (mainSets) {
-                    case 10:
-                        return lowerBody ? 0 : 2;
                     case 4:
                         return lowerBody ? 4 : 5;
                     case 5:
                         return lowerBody ? 3 : 4;
                     case 7:
                         return lowerBody ? 2 : 3;
+                    case 10:
+                        return lowerBody ? 0 : 2;
                 }
                 return 0;
             }
