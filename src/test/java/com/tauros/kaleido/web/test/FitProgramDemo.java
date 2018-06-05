@@ -41,13 +41,13 @@ public class FitProgramDemo {
             public TrainingParam calculate(TrainingParam mainParam) {
                 switch (mainParam.getTraining()) {
                     case 直立杠铃推举:
-                        return new TrainingParam(Training.卧推, calSets(mainParam.getSets()), calReps(mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
+                        return new TrainingParam(Training.卧推, calSets(mainParam.getTraining(), mainParam.getSets()), calReps(mainParam.getTraining(), mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 深蹲:
-                        return new TrainingParam(Training.硬拉, calSets(mainParam.getSets()), calReps(mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
+                        return new TrainingParam(Training.硬拉, calSets(mainParam.getTraining(), mainParam.getSets()), calReps(mainParam.getTraining(), mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 卧推:
-                        return new TrainingParam(Training.直立杠铃推举, calSets(mainParam.getSets()), calReps(mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
+                        return new TrainingParam(Training.直立杠铃推举, calSets(mainParam.getTraining(), mainParam.getSets()), calReps(mainParam.getTraining(), mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                     case 硬拉:
-                        return new TrainingParam(Training.深蹲, calSets(mainParam.getSets()), calReps(mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
+                        return new TrainingParam(Training.深蹲, calSets(mainParam.getTraining(), mainParam.getSets()), calReps(mainParam.getTraining(), mainParam.getSets(), mainParam.getPeriod()), calWeight(mainParam.getWeight(), mainParam.getPeriod()), mainParam.getPeriod());
                 }
                 return null;
             }
@@ -72,21 +72,30 @@ public class FitProgramDemo {
                 return "0.60";
             }
 
-            private int calSets(int mainSets) {
-                final int MAX_SETS = 10;
-                int sets = MAX_SETS - mainSets;
-                return sets < 0 ? 0 : sets > 4 ? 4 : sets;
+            private int calSets(Training mainTraining, int mainSets) {
+                boolean lowerBody = mainTraining == Training.深蹲 || mainTraining == Training.硬拉;
+                switch (mainSets) {
+                    case 10:
+                        return lowerBody ? 0 : 2;
+                    case 4:
+                        return lowerBody ? 4 : 5;
+                    case 5:
+                        return lowerBody ? 3 : 4;
+                    case 7:
+                        return lowerBody ? 2 : 3;
+                }
+                return 0;
             }
 
-            private int calReps(int mainSets, int period) {
-                if (calSets(mainSets) <= 0) {
+            private int calReps(Training mainTraining, int mainSets, int period) {
+                if (calSets(mainTraining, mainSets) <= 0) {
                     return 0;
                 }
                 switch (period) {
                     case 1:
-                        return 10;
+                        return 9;
                     case 2:
-                        return 10;
+                        return 9;
                     case 3:
                         return 8;
                     case 4:
@@ -279,7 +288,9 @@ public class FitProgramDemo {
         XSSFCell cellF1 = row1.createCell(5);
         modifyCell(cellF1, new CellOption().setStyle(row1Style1).setValue("起始日期"));
         XSSFCell cellG1 = row1.createCell(6);
-        modifyCell(cellG1, new CellOption().setStyle(row1Style1).setValue("deload跳过次数"));
+        modifyCell(cellG1, new CellOption().setStyle(row1Style1).setValue("已跳过deload次数"));
+        XSSFCell cellH1 = row1.createCell(7);
+        modifyCell(cellH1, new CellOption().setStyle(row1Style1).setValue("本次deload跳过"));
 
         XSSFRow row2 = sheet1.createRow(1);
         CellStyle row2Style1 = workbook.createCellStyle();
@@ -304,15 +315,18 @@ public class FitProgramDemo {
         XSSFCell cellE2 = row2.createCell(4);
         modifyCell(cellE2, new CellOption().setStyle(row2Style1).setType(NUMERIC).setValue("1"));
         XSSFCell cellF2 = row2.createCell(5);
-        modifyCell(cellF2, new CellOption().setStyle(row2Style3).setValue("2018/2/27"));
+        modifyCell(cellF2, new CellOption().setStyle(row2Style3).setValue("2018/6/5"));
         XSSFCell cellG2 = row2.createCell(6);
         modifyCell(cellG2, new CellOption().setStyle(row2Style1).setType(NUMERIC).setValue("0"));
+        XSSFCell cellH2 = row2.createCell(7);
+        modifyCell(cellH2, new CellOption().setStyle(row2Style1).setEnumClass(YorN.class).setValue(YorN.N.name()));
 
         String periodReference = "$E$2";
         String periodCell = "E2";
         String startDateCell = "F2";
         String deloadSkipCell = "G2";
         String deloadSkipReference = "$G$2";
+        String thisCycleDeloadSkipReference = "$H$2";
 
         XSSFRow row3 = sheet1.createRow(2);
         CellStyle row3Style = workbook.createCellStyle();
@@ -327,7 +341,7 @@ public class FitProgramDemo {
         XSSFCell cellD3 = row3.createCell(3);
         modifyCell(cellD3, new CellOption().setStyle(row3Style).setValue("本周期训练MAX"));
         XSSFCell cellE3 = row3.createCell(4);
-        modifyCell(cellE3, new CellOption().setStyle(row3Style).setValue("增重停止周期"));
+        modifyCell(cellE3, new CellOption().setStyle(row3Style).setValue("增重停止次数"));
 
         String weightRollbackCell1 = "E4";
         String weightRollbackCell2 = "E5";
@@ -424,11 +438,11 @@ public class FitProgramDemo {
         row3Style2.setFillForegroundColor(IndexedColors.WHITE.getIndex());
         row3Style2.setWrapText(true);
         for (int i = 2; i <= 6; i++) {
-            for (int j = 5; j <= 6; j++) {
+            for (int j = 5; j <= 7; j++) {
                 sheet1.getRow(i).createCell(j).setCellStyle(row3Style2);
             }
         }
-        sheet1.addMergedRegion(new CellRangeAddress(2, 6, 5, 6));
+        sheet1.addMergedRegion(new CellRangeAddress(2, 6, 5, 7));
         modifyCell(cellF3, new CellOption().setStyle(row3Style2).setValue("训练频率选择High Frequency时\n训练安排不会对日程造成影响"));
 
         TRAINING_MAX_POSITION.put(Training.深蹲, "$D$4");
@@ -436,7 +450,7 @@ public class FitProgramDemo {
         TRAINING_MAX_POSITION.put(Training.硬拉, "$D$6");
         TRAINING_MAX_POSITION.put(Training.直立杠铃推举, "$D$7");
 
-        buildSchedule(sheet1, 8, 2, startDateCell, periodCell, deloadSkipCell, periodReference, deloadSkipReference, row1Style1);
+        buildSchedule(sheet1, 8, 2, startDateCell, periodCell, deloadSkipCell, periodReference, deloadSkipReference, thisCycleDeloadSkipReference, row1Style1);
 
         for (Map.Entry<String, Map<String, Map<String, Object>>> sheetValidation : VALIDATIONS.entrySet()) {
             XSSFSheet sheet = workbook.getSheet(sheetValidation.getKey());
@@ -451,7 +465,7 @@ public class FitProgramDemo {
         writeFile(workbook, filePath);
     }
 
-    private static void buildSchedule(XSSFSheet sheet, final int startRow, final int startCol, String startDateCell, String periodCell, String deloadSkipCell, String periodReference, String deloadSkipReference, XSSFCellStyle style) {
+    private static void buildSchedule(XSSFSheet sheet, final int startRow, final int startCol, String startDateCell, String periodCell, String deloadSkipCell, String periodReference, String deloadSkipReference, String thisCycleDeloadSkipReference, XSSFCellStyle style) {
         XSSFFont boldFont = sheet.getWorkbook().createFont();
         boldFont.setBold(true);
         XSSFCellStyle baseStyle = sheet.getWorkbook().createCellStyle();
@@ -504,7 +518,11 @@ public class FitProgramDemo {
             XSSFCell cellWeek = sheet.getRow(rowNum).getCell(startCol);
             XSSFCell cellFirstLevel = sheet.getRow(rowNum).getCell(startCol + 2);
             XSSFCell cellSecondLevel = sheet.getRow(rowNum).getCell(startCol + 5);
-            modifyCell(cellWeek, new CellOption().setStyle(headStyle).setValue("Week" + (i + 1)));
+            String weekStr = "Week" + (i + 1);
+            if (i == 4) {
+                weekStr += " (Deload)";
+            }
+            modifyCell(cellWeek, new CellOption().setStyle(headStyle).setValue(weekStr));
             modifyCell(cellFirstLevel, new CellOption().setStyle(firstLevelStyle).setValue("一级主项"));
             modifyCell(cellSecondLevel, new CellOption().setStyle(secondLevelStyle).setValue("二级辅项"));
             modifyCell(sheet.getRow(rowNum + 1).createCell(startCol + 2), new CellOption().setStyle(baseStyle).setValue("锻炼"));
@@ -525,7 +543,7 @@ public class FitProgramDemo {
                     modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
                                                          .setValue(formula));
                 } else {
-                    formula = String.format("IF($C$2=\"Normal\", IF(%s-%s<=0, \"SKIP\", %s), \"SKIP\")", periodReference, deloadSkipReference, formula);
+                    formula = String.format("IF($C$2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipReference, YorN.Y.name(), formula);
                     modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
                                                          .setValue(formula));
                 }
@@ -539,7 +557,7 @@ public class FitProgramDemo {
                         modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
                                                              .setValue(formula));
                     } else {
-                        formula = String.format("IF($C$2=\"Normal\", IF(%s-%s<=0, \"SKIP\", %s), \"SKIP\")", periodReference, deloadSkipReference, formula);
+                        formula = String.format("IF($C$2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipReference, YorN.Y.name(), formula);
                         modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
                                                              .setValue(formula));
                     }
@@ -579,7 +597,7 @@ public class FitProgramDemo {
                     }
                     modifyCell(cellTrain1, new CellOption().setStyle(textStyle).setType(FORMULA).setValue(formula));
                 } else {
-                    formula = String.format("IF($C$2=\"Normal\", IF(%s-%s<=0, \"SKIP\", %s), \"SKIP\")", periodReference, deloadSkipReference, formatCell(startScheduleRow + j, startCol + 2));
+                    formula = String.format("IF($C$2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipReference, YorN.Y.name(), formatCell(startScheduleRow + j, startCol + 2));
                     modifyCell(cellTrain1, new CellOption().setStyle(textStyle).setType(FORMULA).setValue(formula));
                 }
 
@@ -908,6 +926,11 @@ public class FitProgramDemo {
         深蹲,
         直立杠铃推举,
         硬拉;
+    }
+
+    enum YorN {
+        Y,
+        N
     }
 
     private static void writeFile(XSSFWorkbook workbook, String path) throws Exception {
