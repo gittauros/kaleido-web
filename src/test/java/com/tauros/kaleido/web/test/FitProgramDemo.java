@@ -280,7 +280,7 @@ public class FitProgramDemo {
         XSSFCell cellB1 = row1.createCell(1);
         modifyCell(cellB1, new CellOption().setStyle(row1Style1).setValue("训练安排"));
         XSSFCell cellC1 = row1.createCell(2);
-        modifyCell(cellC1, new CellOption().setStyle(row1Style1).setValue("训练频率"));
+        modifyCell(cellC1, new CellOption().setStyle(row1Style1).setValue("训练模式"));
         XSSFCell cellD1 = row1.createCell(3);
         modifyCell(cellD1, new CellOption().setStyle(row1Style1).setValue("增重(上/下肢)"));
         XSSFCell cellE1 = row1.createCell(4);
@@ -311,7 +311,7 @@ public class FitProgramDemo {
         XSSFCell cellC2 = row2.createCell(2);
         modifyCell(cellC2, new CellOption().setStyle(row2Style1).setEnumClass(TrainingMode.class).setValue(TrainingMode.Normal.name()));
         XSSFCell cellD2 = row2.createCell(3);
-        modifyCell(cellD2, new CellOption().setStyle(row2Style2).setType(FORMULA).setValue("IF($A$2=\"kg\", \"2.5/5\", \"5/10\")"));
+        modifyCell(cellD2, new CellOption().setStyle(row2Style2).setType(FORMULA).setValue("IF(A2=\"kg\", \"2.5/5\", \"5/10\")"));
         XSSFCell cellE2 = row2.createCell(4);
         modifyCell(cellE2, new CellOption().setStyle(row2Style1).setType(NUMERIC).setValue("1"));
         XSSFCell cellF2 = row2.createCell(5);
@@ -321,12 +321,10 @@ public class FitProgramDemo {
         XSSFCell cellH2 = row2.createCell(7);
         modifyCell(cellH2, new CellOption().setStyle(row2Style1).setEnumClass(YorN.class).setValue(YorN.N.name()));
 
-        String periodReference = "$E$2";
         String periodCell = "E2";
         String startDateCell = "F2";
         String deloadSkipCell = "G2";
-        String deloadSkipReference = "$G$2";
-        String thisCycleDeloadSkipReference = "$H$2";
+        String thisCycleDeloadSkipCell = "H2";
 
         XSSFRow row3 = sheet1.createRow(2);
         CellStyle row3Style = workbook.createCellStyle();
@@ -366,9 +364,9 @@ public class FitProgramDemo {
         XSSFCell cellB4 = row4.createCell(1);
         modifyCell(cellB4, new CellOption().setStyle(row4Style2).setValue("BAR"));
         XSSFCell cellC4 = row4.createCell(2);
-        modifyCell(cellC4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$4=\"BAR\", 20, IF($B$4 < 20, 20, B4)), IF($B$4=\"BAR\", 45, IF($B$4 < 45, 45, B4))), IF($A$2=\"kg\", IF($B$4=\"BAR\", 20+%s*5, B4+%s*5), IF($B$4=\"BAR\", 45+%s*10, B4+%s*10)))", periodReference, periodCalculateFormula1, periodCalculateFormula1, periodCalculateFormula1, periodCalculateFormula1)));
+        modifyCell(cellC4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF(A2=\"kg\", IF(B4=\"BAR\", 20, IF(B4 < 20, 20, B4)), IF(B4=\"BAR\", 45, IF(B4 < 45, 45, B4))), IF(A2=\"kg\", IF(B4=\"BAR\", 20+%s*5, B4+%s*5), IF(B4=\"BAR\", 45+%s*10, B4+%s*10)))", periodCell, periodCalculateFormula1, periodCalculateFormula1, periodCalculateFormula1, periodCalculateFormula1)));
         XSSFCell cellD4 = row4.createCell(3);
-        modifyCell(cellD4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C4*0.9 < 20, 20, C4*0.9), IF(C4*0.9 < 45, 45, C4*0.9))"));
+        modifyCell(cellD4, new CellOption().setStyle(row4Style1).setType(FORMULA).setValue("IF(A2=\"kg\", IF(C4*0.9 < 20, 20, C4*0.9), IF(C4*0.9 < 45, 45, C4*0.9))"));
         XSSFCell cellE4 = row4.createCell(4);
         modifyCell(cellE4, new CellOption().setStyle(row4Style2).setType(NUMERIC).setValue("0"));
 
@@ -386,9 +384,9 @@ public class FitProgramDemo {
         XSSFCell cellB5 = row5.createCell(1);
         modifyCell(cellB5, new CellOption().setStyle(row5Style2).setValue("BAR"));
         XSSFCell cellC5 = row5.createCell(2);
-        modifyCell(cellC5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$5=\"BAR\", 20, IF($B$5 < 20, 20, B5)), IF($B$5=\"BAR\", 45, IF($B$5 < 45, 45, B5))), IF($A$2=\"kg\", IF($B$5=\"BAR\", 20+%s*2.5, B5+%s*2.5), IF($B$5=\"BAR\", 45+%s*5, B5+%s*5)))", periodReference, periodCalculateFormula2, periodCalculateFormula2, periodCalculateFormula2, periodCalculateFormula2)));
+        modifyCell(cellC5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF(A2=\"kg\", IF(B5=\"BAR\", 20, IF(B5 < 20, 20, B5)), IF(B5=\"BAR\", 45, IF(B5 < 45, 45, B5))), IF(A2=\"kg\", IF(B5=\"BAR\", 20+%s*2.5, B5+%s*2.5), IF(B5=\"BAR\", 45+%s*5, B5+%s*5)))", periodCell, periodCalculateFormula2, periodCalculateFormula2, periodCalculateFormula2, periodCalculateFormula2)));
         XSSFCell cellD5 = row5.createCell(3);
-        modifyCell(cellD5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C5*0.9 < 20, 20, C5*0.9), IF(C5*0.9 < 45, 45, C5*0.9))"));
+        modifyCell(cellD5, new CellOption().setStyle(row5Style1).setType(FORMULA).setValue("IF(A2=\"kg\", IF(C5*0.9 < 20, 20, C5*0.9), IF(C5*0.9 < 45, 45, C5*0.9))"));
         XSSFCell cellE5 = row5.createCell(4);
         modifyCell(cellE5, new CellOption().setStyle(row5Style2).setType(NUMERIC).setValue("0"));
 
@@ -406,9 +404,9 @@ public class FitProgramDemo {
         XSSFCell cellB6 = row6.createCell(1);
         modifyCell(cellB6, new CellOption().setStyle(row6Style2).setValue("BAR"));
         XSSFCell cellC6 = row6.createCell(2);
-        modifyCell(cellC6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$6=\"BAR\", 20, IF($B$6 < 20, 20, B6)), IF($B$6=\"BAR\", 45, IF($B$6 < 45, 45, B6))), IF($A$2=\"kg\", IF($B$6=\"BAR\", 20+%s*5, B6+%s*5), IF($B$6=\"BAR\", 45+%s*10, B6+%s*10)))", periodReference, periodCalculateFormula3, periodCalculateFormula3, periodCalculateFormula3, periodCalculateFormula3)));
+        modifyCell(cellC6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF(A2=\"kg\", IF(B6=\"BAR\", 20, IF(B6 < 20, 20, B6)), IF(B6=\"BAR\", 45, IF(B6 < 45, 45, B6))), IF(A2=\"kg\", IF(B6=\"BAR\", 20+%s*5, B6+%s*5), IF(B6=\"BAR\", 45+%s*10, B6+%s*10)))", periodCell, periodCalculateFormula3, periodCalculateFormula3, periodCalculateFormula3, periodCalculateFormula3)));
         XSSFCell cellD6 = row6.createCell(3);
-        modifyCell(cellD6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C6*0.9 < 20, 20, C6*0.9), IF(C6*0.9 < 45, 45, C6*0.9))"));
+        modifyCell(cellD6, new CellOption().setStyle(row6Style1).setType(FORMULA).setValue("IF(A2=\"kg\", IF(C6*0.9 < 20, 20, C6*0.9), IF(C6*0.9 < 45, 45, C6*0.9))"));
         XSSFCell cellE6 = row6.createCell(4);
         modifyCell(cellE6, new CellOption().setStyle(row6Style2).setType(NUMERIC).setValue("0"));
 
@@ -426,9 +424,9 @@ public class FitProgramDemo {
         XSSFCell cellB7 = row7.createCell(1);
         modifyCell(cellB7, new CellOption().setStyle(row7Style2).setValue("BAR"));
         XSSFCell cellC7 = row7.createCell(2);
-        modifyCell(cellC7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF($A$2=\"kg\", IF($B$7=\"BAR\", 20, IF($B$7 < 20, 20, B7)), IF($B$7=\"BAR\", 45, IF($B$7 < 45, 45, B7))), IF($A$2=\"kg\", IF($B$7=\"BAR\", 20+%s*2.5, B7+%s*2.5), IF($B$7=\"BAR\", 45+%s*5, B7+%s*5)))", periodReference, periodCalculateFormula4, periodCalculateFormula4, periodCalculateFormula4, periodCalculateFormula4)));
+        modifyCell(cellC7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue(String.format("IF(%s<=1, IF(A2=\"kg\", IF(B7=\"BAR\", 20, IF(B7 < 20, 20, B7)), IF(B7=\"BAR\", 45, IF(B7 < 45, 45, B7))), IF(A2=\"kg\", IF(B7=\"BAR\", 20+%s*2.5, B7+%s*2.5), IF(B7=\"BAR\", 45+%s*5, B7+%s*5)))", periodCell, periodCalculateFormula4, periodCalculateFormula4, periodCalculateFormula4, periodCalculateFormula4)));
         XSSFCell cellD7 = row7.createCell(3);
-        modifyCell(cellD7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue("IF($A$2=\"kg\", IF(C7*0.9 < 20, 20, C7*0.9), IF(C7*0.9 < 45, 45, C7*0.9))"));
+        modifyCell(cellD7, new CellOption().setStyle(row7Style1).setType(FORMULA).setValue("IF(A2=\"kg\", IF(C7*0.9 < 20, 20, C7*0.9), IF(C7*0.9 < 45, 45, C7*0.9))"));
         XSSFCell cellE7 = row7.createCell(4);
         modifyCell(cellE7, new CellOption().setStyle(row7Style2).setType(NUMERIC).setValue("0"));
 
@@ -443,14 +441,18 @@ public class FitProgramDemo {
             }
         }
         sheet1.addMergedRegion(new CellRangeAddress(2, 6, 5, 7));
-        modifyCell(cellF3, new CellOption().setStyle(row3Style2).setValue("训练频率选择High Frequency时\n训练安排不会对日程造成影响"));
+        modifyCell(cellF3, new CellOption().setStyle(row3Style2).setValue("训练模式选择High Frequency时\n训练安排不会对日程造成影响\n二级训练不属于7/5/3原版内容，可自行取舍"));
 
-        TRAINING_MAX_POSITION.put(Training.深蹲, "$D$4");
-        TRAINING_MAX_POSITION.put(Training.卧推, "$D$5");
-        TRAINING_MAX_POSITION.put(Training.硬拉, "$D$6");
-        TRAINING_MAX_POSITION.put(Training.直立杠铃推举, "$D$7");
+        TRAINING_MAX_POSITION.put(Training.深蹲, "D4");
+        TRAINING_MAX_POSITION.put(Training.卧推, "D5");
+        TRAINING_MAX_POSITION.put(Training.硬拉, "D6");
+        TRAINING_MAX_POSITION.put(Training.直立杠铃推举, "D7");
 
-        buildSchedule(sheet1, 8, 2, startDateCell, periodCell, deloadSkipCell, periodReference, deloadSkipReference, thisCycleDeloadSkipReference, row1Style1);
+        buildSchedule(sheet1, 8, 2, startDateCell, periodCell, deloadSkipCell, thisCycleDeloadSkipCell, row1Style1);
+
+        //生成体重记录表格
+        XSSFSheet sheet2 = workbook.createSheet("体重记录");
+        buildBodyWeightRecord(sheet2);
 
         for (Map.Entry<String, Map<String, Map<String, Object>>> sheetValidation : VALIDATIONS.entrySet()) {
             XSSFSheet sheet = workbook.getSheet(sheetValidation.getKey());
@@ -462,10 +464,11 @@ public class FitProgramDemo {
                 sheet.addValidationData(helper.createValidation(constraint, rangeAddressList));
             }
         }
+
         writeFile(workbook, filePath);
     }
 
-    private static void buildSchedule(XSSFSheet sheet, final int startRow, final int startCol, String startDateCell, String periodCell, String deloadSkipCell, String periodReference, String deloadSkipReference, String thisCycleDeloadSkipReference, XSSFCellStyle style) {
+    private static void buildSchedule(XSSFSheet sheet, final int startRow, final int startCol, String startDateCell, String periodCell, String deloadSkipCell, String thisCycleDeloadSkipCell, XSSFCellStyle style) {
         XSSFFont boldFont = sheet.getWorkbook().createFont();
         boldFont.setBold(true);
         XSSFCellStyle baseStyle = sheet.getWorkbook().createCellStyle();
@@ -532,7 +535,7 @@ public class FitProgramDemo {
             modifyCell(sheet.getRow(rowNum + 1).createCell(startCol + 6), new CellOption().setStyle(baseStyle).setValue("重量"));
             modifyCell(sheet.getRow(rowNum + 1).createCell(startCol + 7), new CellOption().setStyle(baseStyle).setValue("组数×次数"));
 
-            String firstTrainingCell = String.format("$%s$%s", formatCellCol(startCol + 2), formatCellRow(startScheduleRow + 1));
+            String firstTrainingCell = String.format("%s%s", formatCellCol(startCol + 2), formatCellRow(startScheduleRow + 1));
             for (int j = 1; j <= 7; j++) {
                 int curRowNum = rowNum + 1 + j;
                 int curDays = days + j;
@@ -543,21 +546,21 @@ public class FitProgramDemo {
                     modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
                                                          .setValue(formula));
                 } else {
-                    formula = String.format("IF($C$2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipReference, YorN.Y.name(), formula);
+                    formula = String.format("IF(C2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipCell, YorN.Y.name(), formula);
                     modifyCell(cellDayT, new CellOption().setStyle(textStyle).setType(FORMULA)
                                                          .setValue(formula));
                 }
 
                 XSSFCell cellDayV = row.createCell(startCol + 1);
                 if (i == 0 && j == 1) {
-                    modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF($C$2=\"Normal\", %s+IF(%s-%s<=0, (%s - 1) * 28, %s * 28 + (%s - %s - 1) * 35), %s+(%s - 1) * 28))", periodReference, startDateCell, startDateCell, periodReference, deloadSkipReference, periodCell, deloadSkipCell, periodCell, deloadSkipCell, startDateCell, periodCell)));
+                    modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(String.format("IF(%s<=1, %s, IF(C2=\"Normal\", %s+IF(%s-%s<=0, (%s - 1) * 28, %s * 28 + (%s - %s - 1) * 35), %s+(%s - 1) * 28))", periodCell, startDateCell, startDateCell, periodCell, deloadSkipCell, periodCell, deloadSkipCell, periodCell, deloadSkipCell, startDateCell, periodCell)));
                 } else {
                     formula = String.format("%s+%s", formatCell(startScheduleRow + 1, startCol + 1), 7 * i + j - 1);
                     if (i < 4) {
                         modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
                                                              .setValue(formula));
                     } else {
-                        formula = String.format("IF($C$2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipReference, YorN.Y.name(), formula);
+                        formula = String.format("IF(C2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipCell, YorN.Y.name(), formula);
                         modifyCell(cellDayV, new CellOption().setStyle(dateStyle).setType(FORMULA)
                                                              .setValue(formula));
                     }
@@ -588,21 +591,21 @@ public class FitProgramDemo {
                     }
                 } else if (i < 4) {
                     if (curDays <= 24) {
-                        formula = String.format("IF($C$2=\"Normal\", %s, IF(%s=\"%s\", \"%s\", \"%s\"))", formatCell(startScheduleRow + j, startCol + 2), firstTrainingCell, TrainingStart.卧推.name(), training1Str, training2Str);
+                        formula = String.format("IF(C2=\"Normal\", %s, IF(%s=\"%s\", \"%s\", \"%s\"))", formatCell(startScheduleRow + j, startCol + 2), firstTrainingCell, TrainingStart.卧推.name(), training1Str, training2Str);
                     } else {
                         int deloadDay = curDays - 24 - 1;
                         training1Str = TRAINING_SEQUENCE[0][deloadDay].name();
                         training2Str = TRAINING_SEQUENCE[1][deloadDay].name();
-                        formula = String.format("IF($C$2=\"Normal\", %s, IF(%s=\"%s\", \"%s\", \"%s\"))", formatCell(startScheduleRow + j, startCol + 2), firstTrainingCell, TrainingStart.卧推.name(), training1Str, training2Str);
+                        formula = String.format("IF(C2=\"Normal\", %s, IF(%s=\"%s\", \"%s\", \"%s\"))", formatCell(startScheduleRow + j, startCol + 2), firstTrainingCell, TrainingStart.卧推.name(), training1Str, training2Str);
                     }
                     modifyCell(cellTrain1, new CellOption().setStyle(textStyle).setType(FORMULA).setValue(formula));
                 } else {
-                    formula = String.format("IF($C$2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipReference, YorN.Y.name(), formatCell(startScheduleRow + j, startCol + 2));
+                    formula = String.format("IF(C2=\"Normal\", IF(%s=\"%s\", \"SKIP\", %s), \"SKIP\")", thisCycleDeloadSkipCell, YorN.Y.name(), formatCell(startScheduleRow + j, startCol + 2));
                     modifyCell(cellTrain1, new CellOption().setStyle(textStyle).setType(FORMULA).setValue(formula));
                 }
 
-                String training1Cell = String.format("$%s$%s", formatCellCol(startCol + 2), formatCellRow(curRowNum));
-                String training1SetsAndReps = String.format("$%s$%s", formatCellCol(startCol + 4), formatCellRow(curRowNum));
+                String training1Cell = String.format("%s%s", formatCellCol(startCol + 2), formatCellRow(curRowNum));
+                String training1SetsAndReps = String.format("%s%s", formatCellCol(startCol + 4), formatCellRow(curRowNum));
 
                 XSSFCell cellTrain1Weight = row.createCell(startCol + 3);
                 formula = weightFormula(training1Cell, training1Cell, curDays, CycleCalculatorInstance.FIRST_TRAIN);
@@ -617,7 +620,7 @@ public class FitProgramDemo {
                 formula = secondSupportTrainFormula(training1Cell, training1SetsAndReps);
                 modifyCell(cellTrain2, new CellOption().setStyle(textStyle).setType(FORMULA).setValue(formula));
 
-                String training2Cell = String.format("$%s$%s", formatCellCol(startCol + 5), formatCellRow(curRowNum));
+                String training2Cell = String.format("%s%s", formatCellCol(startCol + 5), formatCellRow(curRowNum));
 
                 XSSFCell cellTrain2Weight = row.createCell(startCol + 6);
                 formula = weightFormula(training1Cell, training2Cell, curDays, CycleCalculatorInstance.SECOND_TRAIN);
@@ -644,11 +647,11 @@ public class FitProgramDemo {
     }
 
     private static String firstWeekNormalFormula(String formula1, String formula2, String formula3) {
-        return String.format("IF($B$2=\"12x3x4x\", %s, IF($B$2=\"12x34xx\", %s, %s))", formula1, formula2, formula3);
+        return String.format("IF(B2=\"12x3x4x\", %s, IF(B2=\"12x34xx\", %s, %s))", formula1, formula2, formula3);
     }
 
     private static String firstWeekTrainingFormula(String normalFormula, String firstTrainingCell, String training1Str, String training2Str) {
-        return String.format("IF($C$2=\"Normal\", %s, IF(%s=\"%s\", \"%s\", \"%s\"))", normalFormula, firstTrainingCell, Training.卧推.name(), training1Str, training2Str);
+        return String.format("IF(C2=\"Normal\", %s, IF(%s=\"%s\", \"%s\", \"%s\"))", normalFormula, firstTrainingCell, Training.卧推.name(), training1Str, training2Str);
     }
 
     private static String setsAndRepsFormula(String mainTrainingCell, String trainingCell, int days, CycleCalculator calculator) {
@@ -681,15 +684,15 @@ public class FitProgramDemo {
     }
 
     private static String calBaseWeightFormula(String normalFormula, String highFormula) {
-        String cal1 = String.format("IF($A$2= \"kg\", IF(MROUND(%s, 2.5) < 20, 20, MROUND(%s, 2.5)), IF(MROUND(%s, 5) < 45, 45, MROUND(%s, 5)))", normalFormula, normalFormula, normalFormula, normalFormula);
-        String cal2 = String.format("IF($A$2= \"kg\", IF(MROUND(%s, 2.5) < 20, 20, MROUND(%s, 2.5)), IF(MROUND(%s, 5) < 45, 45, MROUND(%s, 5)))", highFormula, highFormula, highFormula, highFormula);
-        return String.format("IF($C$2=\"Normal\", %s, %s)", cal1, cal2);
+        String cal1 = String.format("IF(A2= \"kg\", IF(MROUND(%s, 2.5) < 20, 20, MROUND(%s, 2.5)), IF(MROUND(%s, 5) < 45, 45, MROUND(%s, 5)))", normalFormula, normalFormula, normalFormula, normalFormula);
+        String cal2 = String.format("IF(A2= \"kg\", IF(MROUND(%s, 2.5) < 20, 20, MROUND(%s, 2.5)), IF(MROUND(%s, 5) < 45, 45, MROUND(%s, 5)))", highFormula, highFormula, highFormula, highFormula);
+        return String.format("IF(C2=\"Normal\", %s, %s)", cal1, cal2);
     }
 
     private static String judgeSetsAndRepsFormula(int normalSets, int normalReps, int highSets, int highReps) {
         String normalFormula = String.format("\"%s×%s\"", normalSets, normalReps);
         String highFormula = String.format("\"%s×%s\"", highSets, highReps);
-        return String.format("IF($C$2=\"Normal\", %s, %s)", normalFormula, highFormula);
+        return String.format("IF(C2=\"Normal\", %s, %s)", normalFormula, highFormula);
     }
 
     private static String formatCell(int row, int col) {
@@ -763,7 +766,7 @@ public class FitProgramDemo {
     }
 
     static class CellOption {
-        private String    value;
+        private String    value = "";
         private CellStyle style;
         private CellType type = STRING;
         private Class<? extends Enum> enumClass;
@@ -937,6 +940,171 @@ public class FitProgramDemo {
         File file = new File(path);
         OutputStream os = new FileOutputStream(file);
         workbook.write(os);
+    }
+
+    private static void buildBodyWeightRecord(XSSFSheet sheet) {
+        XSSFFont baseFont = sheet.getWorkbook().createFont();
+        baseFont.setFontHeight(14);
+        XSSFFont boldFont = sheet.getWorkbook().createFont();
+        boldFont.setBold(true);
+        boldFont.setFontHeight(14);
+        XSSFFont valFont = sheet.getWorkbook().createFont();
+        valFont.setBold(true);
+        valFont.setColor(IndexedColors.DARK_RED.getIndex());
+        valFont.setFontHeight(14);
+        for (int i = 0; i < 20; i++) {
+            sheet.setColumnWidth(i, 18 * 256);
+        }
+        XSSFCellStyle row1Style1 = sheet.getWorkbook().createCellStyle();
+        row1Style1.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        row1Style1.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        row1Style1.setBorderLeft(BorderStyle.THIN);
+        row1Style1.setBorderRight(BorderStyle.THIN);
+        row1Style1.setBorderTop(BorderStyle.THIN);
+        row1Style1.setBorderBottom(BorderStyle.THIN);
+        row1Style1.setLeftBorderColor(IndexedColors.BLACK1.getIndex());
+        row1Style1.setRightBorderColor(IndexedColors.BLACK1.getIndex());
+        row1Style1.setTopBorderColor(IndexedColors.BLACK1.getIndex());
+        row1Style1.setBottomBorderColor(IndexedColors.BLACK1.getIndex());
+        row1Style1.setAlignment(HorizontalAlignment.CENTER);
+        row1Style1.setVerticalAlignment(VerticalAlignment.CENTER);
+        row1Style1.setFont(baseFont);
+
+        XSSFCellStyle row1Style2 = sheet.getWorkbook().createCellStyle();
+        row1Style2.cloneStyleFrom(row1Style1);
+        row1Style2.setFont(boldFont);
+        row1Style2.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+        XSSFCellStyle dateBoldStyle = sheet.getWorkbook().createCellStyle();
+        dateBoldStyle.cloneStyleFrom(row1Style2);
+        dateBoldStyle.setDataFormat(sheet.getWorkbook().createDataFormat().getFormat("m/d/yy"));
+
+        XSSFRow row1 = sheet.createRow(0);
+        XSSFCell cellA1 = row1.createCell(0);
+        modifyCell(cellA1, new CellOption().setStyle(row1Style2).setEnumClass(WeightUnit.class).setValue(WeightUnit.kg.name()));
+        XSSFCell cellB1 = row1.createCell(1);
+        modifyCell(cellB1, new CellOption().setStyle(dateBoldStyle).setValue("2018/6/10"));
+        XSSFCell cellC1 = row1.createCell(2);
+        modifyCell(cellC1, new CellOption().setStyle(row1Style1).setType(FORMULA).setValue("CONCATENATE(\"体重(\",A1,\")\")"));
+        XSSFCell cellD1 = row1.createCell(3);
+        modifyCell(cellD1, new CellOption().setStyle(row1Style1).setValue("体脂率(%)"));
+        XSSFCell cellE1 = row1.createCell(4);
+        modifyCell(cellE1, new CellOption().setStyle(row1Style1).setType(FORMULA).setValue("CONCATENATE(\"瘦体重(\",A1,\")\")"));
+        XSSFCell cellF1 = row1.createCell(5);
+        modifyCell(cellF1, new CellOption().setStyle(row1Style1).setValue("目标热量"));
+        XSSFCell cellG1 = row1.createCell(6);
+        modifyCell(cellG1, new CellOption().setStyle(row1Style1).setValue("摄入热量"));
+        XSSFCell cellH1 = row1.createCell(7);
+        modifyCell(cellH1, new CellOption().setStyle(row1Style1).setType(FORMULA).setValue("CONCATENATE(\"平均体重(\",A1,\")\")"));
+        XSSFCell cellI1 = row1.createCell(8);
+        modifyCell(cellI1, new CellOption().setStyle(row1Style1).setValue("体重趋势(%)"));
+        XSSFCell cellJ1 = row1.createCell(9);
+        modifyCell(cellJ1, new CellOption().setStyle(row1Style1).setType(FORMULA).setValue("CONCATENATE(\"平均瘦体重(\",A1,\")\")"));
+        XSSFCell cellK1 = row1.createCell(10);
+        modifyCell(cellK1, new CellOption().setStyle(row1Style1).setValue("瘦体重趋势(%)"));
+        XSSFCell cellL1 = row1.createCell(11);
+        modifyCell(cellL1, new CellOption().setStyle(row1Style1).setValue("平均体脂(%)"));
+        XSSFCell cellM1 = row1.createCell(12);
+        modifyCell(cellM1, new CellOption().setStyle(row1Style1).setValue("体脂趋势(%)"));
+
+        XSSFCellStyle plainStyle = sheet.getWorkbook().createCellStyle();
+        plainStyle.cloneStyleFrom(row1Style1);
+        plainStyle.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+        XSSFCellStyle inputStyle = sheet.getWorkbook().createCellStyle();
+        inputStyle.cloneStyleFrom(plainStyle);
+        inputStyle.setFont(boldFont);
+        XSSFCellStyle valStyle = sheet.getWorkbook().createCellStyle();
+        valStyle.cloneStyleFrom(plainStyle);
+        valStyle.setFont(valFont);
+        XSSFCellStyle dateStyle = sheet.getWorkbook().createCellStyle();
+        dateStyle.cloneStyleFrom(plainStyle);
+        dateStyle.setDataFormat(sheet.getWorkbook().createDataFormat().getFormat("m/d/yy"));
+
+        String formula;
+        int dayCount = 0;
+        for (int i = 0; i < 52; i++) {
+            StringBuilder weightAppender = new StringBuilder();
+            StringBuilder leanWeightAppender = new StringBuilder();
+            for (int j = 0; j < 7; j++) {
+                XSSFRow row = sheet.createRow(dayCount + 1);
+
+                if (j > 0) {
+                    weightAppender.append(",");
+                    leanWeightAppender.append(",");
+                }
+
+                String weightCell = formatCell(1 + dayCount, 2);
+                String fatCell = formatCell(1 + dayCount, 3);
+                String leanWeightCell = formatCell(1 + dayCount, 4);
+
+                weightAppender.append(weightCell);
+                leanWeightAppender.append(leanWeightCell);
+
+                XSSFCell cellA = row.createCell(0);
+                formula = String.format("TEXT(WEEKDAY(%s),\"dddd\")", formatCell(1 + dayCount, 1));
+                modifyCell(cellA, new CellOption().setStyle(plainStyle).setType(FORMULA).setValue(formula));
+                XSSFCell cellB = row.createCell(1);
+                formula = String.format("B1+%s", dayCount);
+                modifyCell(cellB, new CellOption().setStyle(dateStyle).setType(FORMULA).setValue(formula));
+                XSSFCell cellC = row.createCell(2);
+                modifyCell(cellC, new CellOption().setStyle(inputStyle).setType(NUMERIC));
+                XSSFCell cellD = row.createCell(3);
+                modifyCell(cellD, new CellOption().setStyle(inputStyle).setType(NUMERIC));
+                XSSFCell cellE = row.createCell(4);
+                formula = String.format("IF(AND(ISNUMBER(%s),ISNUMBER(%s)), %s*(1-%s/100), \"-\")", weightCell, fatCell, weightCell, fatCell);
+                modifyCell(cellE, new CellOption().setStyle(plainStyle).setType(FORMULA).setValue(formula));
+                XSSFCell cellF = row.createCell(5);
+                modifyCell(cellF, new CellOption().setStyle(inputStyle).setType(NUMERIC));
+                XSSFCell cellG = row.createCell(6);
+                modifyCell(cellG, new CellOption().setStyle(inputStyle).setType(NUMERIC));
+                XSSFCell cellH = row.createCell(7);
+                modifyCell(cellH, new CellOption().setStyle(valStyle).setType(STRING));
+                XSSFCell cellI = row.createCell(8);
+                modifyCell(cellI, new CellOption().setStyle(valStyle).setType(STRING));
+                XSSFCell cellJ = row.createCell(9);
+                modifyCell(cellJ, new CellOption().setStyle(valStyle).setType(STRING));
+                XSSFCell cellK = row.createCell(10);
+                modifyCell(cellK, new CellOption().setStyle(valStyle).setType(STRING));
+                XSSFCell cellL = row.createCell(11);
+                modifyCell(cellL, new CellOption().setStyle(valStyle).setType(STRING));
+                XSSFCell cellM = row.createCell(12);
+                modifyCell(cellM, new CellOption().setStyle(valStyle).setType(STRING));
+
+                dayCount++;
+            }
+            int rowNum = 1 + i*7;
+            String wcCell = formatCell(rowNum, 7);
+            String wpCell = formatCell(rowNum - 7, 7);
+            String lcCell = formatCell(rowNum, 9);
+            String lpCell = formatCell(rowNum - 7, 9);
+            String fcCell = formatCell(rowNum, 11);
+            String fpCell = formatCell(rowNum - 7, 11);
+            String aveWeightFormula = String.format("IF(ISNUMBER(AVERAGE(%s)), ROUND(AVERAGE(%s),2), \"-\")", weightAppender.toString(), weightAppender.toString());
+            String aveLeanWeightFormula = String.format("IF(ISNUMBER(AVERAGE(%s)), ROUND(AVERAGE(%s),2), \"-\")", leanWeightAppender.toString(), leanWeightAppender.toString());
+            String aveFatFormula = String.format("IF(ISNUMBER((%s-%s)/%s), ROUND((%s-%s)/%s*100,2), \"-\")", wcCell, lcCell, wcCell, wcCell, lcCell, wcCell);
+            String weightTendencyFormula = i == 0 ? "\"-\"" : String.format("IF(ISNUMBER(ROUND((%s-%s)/%s,4)), CONCATENATE(IF(%s-%s>=0,\"+\",\"\"),ROUND((%s-%s)/%s,4)*100), \"-\")", wcCell, wpCell, wpCell, wcCell, wpCell, wcCell, wpCell, wpCell);
+            String leanWeightTendencyFormula = i == 0 ? "\"-\"" : String.format("IF(ISNUMBER(ROUND((%s-%s)/%s,4)), CONCATENATE(IF(%s-%s>=0,\"+\",\"\"),ROUND((%s-%s)/%s,4)*100), \"-\")", lcCell, lpCell, lpCell, lcCell, lpCell, lcCell, lpCell, lpCell);
+            String fatTendencyFormula = i == 0 ? "\"-\"" : String.format("IF(ISNUMBER(ROUND((%s-%s)/%s,4)), CONCATENATE(IF(%s-%s>=0,\"+\",\"\"),ROUND((%s-%s)/%s,4)*100), \"-\")", fcCell, fpCell, fpCell, fcCell, fpCell, fcCell, fpCell, fpCell);
+
+            sheet.addMergedRegion(new CellRangeAddress(rowNum, 7 + i*7, 7, 7));
+            formula = aveWeightFormula;
+            modifyCell(sheet.getRow(rowNum).getCell(7), new CellOption().setStyle(valStyle).setType(FORMULA).setValue(formula));
+            sheet.addMergedRegion(new CellRangeAddress(rowNum, 7 + i*7, 8, 8));
+            formula = weightTendencyFormula;
+            modifyCell(sheet.getRow(rowNum).getCell(8), new CellOption().setStyle(valStyle).setType(FORMULA).setValue(formula));
+            sheet.addMergedRegion(new CellRangeAddress(rowNum, 7 + i*7, 9, 9));
+            formula = aveLeanWeightFormula;
+            modifyCell(sheet.getRow(rowNum).getCell(9), new CellOption().setStyle(valStyle).setType(FORMULA).setValue(formula));
+            sheet.addMergedRegion(new CellRangeAddress(rowNum, 7 + i*7, 10, 10));
+            formula = leanWeightTendencyFormula;
+            modifyCell(sheet.getRow(rowNum).getCell(10), new CellOption().setStyle(valStyle).setType(FORMULA).setValue(formula));
+            sheet.addMergedRegion(new CellRangeAddress(rowNum, 7 + i*7, 11, 11));
+            formula = aveFatFormula;
+            modifyCell(sheet.getRow(rowNum).getCell(11), new CellOption().setStyle(valStyle).setType(FORMULA).setValue(formula));
+            sheet.addMergedRegion(new CellRangeAddress(rowNum, 7 + i*7, 12, 12));
+            formula = fatTendencyFormula;
+            modifyCell(sheet.getRow(rowNum).getCell(12), new CellOption().setStyle(valStyle).setType(FORMULA).setValue(formula));
+        }
+
     }
 
 }
