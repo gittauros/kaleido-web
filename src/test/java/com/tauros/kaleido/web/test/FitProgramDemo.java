@@ -712,7 +712,9 @@ public class FitProgramDemo {
         if (option.getType() == FORMULA) {
             cell.setCellFormula(option.getValue());
         } else {
-            cell.setCellValue(option.getValue().replaceAll("_", " ").trim());
+            if (option.getValue() != null) {
+                cell.setCellValue(option.getValue().replaceAll("_", " ").trim());
+            }
         }
         if (option.getStyle() != null) {
             cell.setCellStyle(option.getStyle());
@@ -766,7 +768,7 @@ public class FitProgramDemo {
     }
 
     static class CellOption {
-        private String    value = "";
+        private String    value;
         private CellStyle style;
         private CellType type = STRING;
         private Class<? extends Enum> enumClass;
